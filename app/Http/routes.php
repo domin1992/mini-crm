@@ -11,6 +11,19 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['middleware' => 'web'], function(){
+    Route::auth();
+
+    Route::get('/', function () {
+        return view('welcome');
+    });
+
+    Route::get('/home', 'HomeController@index');
+    Route::resource('client', 'ClientController');
+    Route::resource('address', 'AddressController');
+    Route::resource('contact', 'ContactController');
+});
+
+Route::group(['middleware' => ['web', 'auth']], function(){
+
 });

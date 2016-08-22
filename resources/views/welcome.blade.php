@@ -1,45 +1,23 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Laravel</title>
+@extends('layouts.master')
 
-        <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+@section('content')
+<section class="content-header">
+  <h1>
+    Blank page
+  </h1>
+</section>
 
-        <style>
-            html, body {
-                height: 100%;
-            }
-
-            body {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                display: table;
-                font-weight: 100;
-                font-family: 'Lato';
-            }
-
-            .container {
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            }
-
-            .content {
-                text-align: center;
-                display: inline-block;
-            }
-
-            .title {
-                font-size: 96px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="content">
-                <div class="title">Laravel 5</div>
-            </div>
-        </div>
-    </body>
-</html>
+<section class="content">
+  <div class="box">
+    <div class="box-header with-border">
+      <h3 class="box-title">Title</h3>
+    </div>
+    <div class="box-body">
+      Start creating your amazing application!
+    </div>
+    <div class="box-footer">
+      Footer
+    </div>
+  </div>
+</section>
+@endsection

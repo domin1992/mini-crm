@@ -1,0 +1,21 @@
+.login-page{
+  background-image: url('/img/login-background.png');
+  background-position: center;
+  background-size: 100% auto;
+}
+
+.login-logo a, .register-logo a{
+  color: #333;
+}
+
+.navbar-nav>.user-menu>.dropdown-menu>li.user-header{
+  height: auto;
+}
+
+table tr td{
+  vertical-align: middle !important;
+}
+
+span.required{
+  color: #FF4747;
+}
