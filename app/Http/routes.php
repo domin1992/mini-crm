@@ -11,19 +11,22 @@
 |
 */
 
+// user not logged in
 Route::group(['middleware' => 'web'], function(){
     Route::auth();
 
     Route::get('/', function () {
-        return view('welcome');
+      return redirect('/login');
     });
 
-    Route::get('/home', 'HomeController@index');
-    Route::resource('client', 'ClientController');
-    Route::resource('address', 'AddressController');
-    Route::resource('contact', 'ContactController');
 });
 
+// App / user logged in
 Route::group(['middleware' => ['web', 'auth']], function(){
-
+  Route::get('/', function(){
+    return view('dashboard');
+  });
+  Route::resource('client', 'ClientController');
+  Route::resource('address', 'AddressController');
+  Route::resource('contact', 'ContactController');
 });

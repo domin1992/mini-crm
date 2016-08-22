@@ -24,7 +24,7 @@
       <div class="row">
         {{ csrf_field() }}
         <input type="hidden" name="token" value="{{ $token }}">
-        <div class="col-xs-4">
+        <div class="col-xs-6">
           <button type="submit" class="btn btn-primary btn-block btn-flat">Resetuj hasło</button>
         </div>
       </div>

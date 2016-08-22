@@ -77,6 +77,6 @@ class AuthController extends Controller
 
     public function register()
     {
-
+      // empty, registering is not allowed
     }
 }

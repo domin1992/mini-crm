@@ -6,7 +6,7 @@
     <a href="#">MANAGER</a>
   </div>
   <div class="login-box-body">
-    <p class="login-box-msg">Sign in to start your session</p>
+    <p class="login-box-msg">Zaloguj się</p>
 
     <form action="{{ url('/login') }}" method="post">
       <div class="form-group has-feedback">
@@ -21,18 +21,18 @@
         <div class="col-xs-8">
           <div class="checkbox icheck">
             <label>
-              <input type="checkbox" name="remember"> Remember Me
+              <input type="checkbox" name="remember"> Zapamiętaj mnie
             </label>
           </div>
         </div>
         {{ csrf_field() }}
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Zaloguj</button>
         </div>
       </div>
     </form>
 
-    <a href="{{ url('/password/reset') }}">I forgot my password</a><br>
+    <a href="{{ url('/password/reset') }}">Zapomniałem hasła</a><br>
 
   </div>
 </div>
