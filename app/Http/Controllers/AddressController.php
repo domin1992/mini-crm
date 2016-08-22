@@ -90,6 +90,10 @@ class AddressController extends Controller
      */
     public function destroy($id)
     {
-        //
+      $address = Address::find($id);
+      $clientId = $address->client_id;
+      $address->delete();
+
+      return redirect('/client/'.$clientId);
     }
 }

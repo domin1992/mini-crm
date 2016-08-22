@@ -94,6 +94,11 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        //
+      $client = Client::find($id);
+      $client->addresses()->delete();
+      $client->contacts()->delete();
+      $client->delete();
+
+      return redirect('/client');
     }
 }

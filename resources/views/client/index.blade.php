@@ -45,7 +45,7 @@
                   </button>
                   <ul class="dropdown-menu" role="menu">
                     <li><a href="/client/{{ $client->id }}/edit">Edytuj</a></li>
-                    <li><a href="#">Usuń</a></li>
+                    <li><a href="javascript:void(0)" class="delete-client" data-client="{{ $client->id }}">Usuń</a></li>
                   </ul>
                 </div>
               </td>
@@ -69,6 +69,7 @@
     </div>
   </div>
 </section>
+@include('client.partials.modal-client-delete')
 @endsection
 
 @section('script')
@@ -76,5 +77,10 @@
 <script src="/plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script>
   $("#data-table").DataTable();
+  
+  $('.delete-client').click(function(){
+    $('#form-client-delete').attr('action', '/client/' + $(this).data('client'));
+    $('.modal-client-delete').modal('show');
+  });
 </script>
 @endsection
