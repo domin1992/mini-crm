@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-use App\Client;
+use App\Employee;
 
-class ClientController extends Controller
+class EmployeeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +17,9 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = Client::all();
+        $employees = Employee::all();
 
-        return view('client.index', compact('clients'));
+        return view('employee.index', compact('employees'));
     }
 
     /**
@@ -29,7 +29,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        return view('client.create');
+        return view('employee.create');
     }
 
     /**
@@ -40,9 +40,9 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        Client::create($request->all());
+        Employee::create($request->all());
 
-        return redirect('/client');
+        return redirect('/employee');
     }
 
     /**
@@ -53,9 +53,9 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        $client = Client::find($id);
+        $employee = Employee::find($id);
 
-        return view('client.show', compact('client'));
+        return view('employee.show', compact('employee'));
     }
 
     /**
@@ -66,9 +66,9 @@ class ClientController extends Controller
      */
     public function edit($id)
     {
-        $client = Client::find($id);
+        $employee = Employee::find($id);
 
-        return view('client.edit', compact('client'));
+        return view('employee.edit', compact('employee'));
     }
 
     /**
@@ -80,10 +80,10 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $client = Client::find($id);
-        $client->update($request->all());
+        $employee = Employee::find($id);
+        $employee->update($request->all());
 
-        return redirect('/client/'.$id);
+        return redirect('/employee/'.$id);
     }
 
     /**
@@ -94,18 +94,9 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        $client = Client::find($id);
-        $client->addresses()->delete();
-        $client->contacts()->delete();
-        $client->delete();
+        $employee = Employee::find($id);
+        $employee->delete();
 
-        return redirect('/client');
-    }
-
-    public function ajaxShow($id){
-      $client = Client::find($id);
-      $client->addresses = $client->addresses()->get();
-
-      return response()->json($client);
+        return redirect('/employee');
     }
 }

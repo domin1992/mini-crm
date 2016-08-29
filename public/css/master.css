@@ -19,3 +19,7 @@ table tr td{
 span.required{
   color: #FF4747;
 }
+
+.invoice-info{
+  margin-bottom: 15px;
+}
