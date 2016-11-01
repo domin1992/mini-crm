@@ -143,7 +143,7 @@ class MySqlGrammar extends Grammar
      * Prepares a JSON column being updated using the JSON_SET function.
      *
      * @param  string  $key
-     * @param  \Illuminate\Database\JsonExpression  $value
+     * @param  \Illuminate\Database\Query\JsonExpression  $value
      * @return string
      */
     protected function compileJsonUpdateColumn($key, JsonExpression $value)
@@ -169,7 +169,8 @@ class MySqlGrammar extends Grammar
         $index = 0;
 
         foreach ($values as $column => $value) {
-            if ($this->isJsonSelector($column) && is_bool($value)) {
+            if ($this->isJsonSelector($column) &&
+                in_array(gettype($value), ['boolean', 'integer', 'double'])) {
                 unset($bindings[$index]);
             }
 

@@ -13,7 +13,7 @@
 
 // user not logged in
 Route::group(['middleware' => 'web'], function(){
-    Route::auth();
+    Auth::routes();
 
     Route::get('/', function () {
       return redirect('/login');

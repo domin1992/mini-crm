@@ -345,7 +345,11 @@ class Response
 
         // cookies
         foreach ($this->headers->getCookies() as $cookie) {
-            setcookie($cookie->getName(), $cookie->getValue(), $cookie->getExpiresTime(), $cookie->getPath(), $cookie->getDomain(), $cookie->isSecure(), $cookie->isHttpOnly());
+            if ($cookie->isRaw()) {
+                setrawcookie($cookie->getName(), $cookie->getValue(), $cookie->getExpiresTime(), $cookie->getPath(), $cookie->getDomain(), $cookie->isSecure(), $cookie->isHttpOnly());
+            } else {
+                setcookie($cookie->getName(), $cookie->getValue(), $cookie->getExpiresTime(), $cookie->getPath(), $cookie->getDomain(), $cookie->isSecure(), $cookie->isHttpOnly());
+            }
         }
 
         return $this;
@@ -1004,7 +1008,7 @@ class Response
      */
     public function isNotModified(Request $request)
     {
-        if (!$request->isMethodSafe()) {
+        if (!$request->isMethodCacheable()) {
             return false;
         }
 

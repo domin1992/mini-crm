@@ -51,7 +51,11 @@
                   <a href="#" class="btn btn-default btn-flat">Profil</a>
                 </div>
                 <div class="pull-right">
-                  <a href="/logout" class="btn btn-default btn-flat">Wyloguj się</a>
+                  <form action="/logout" method="post">
+                    {{ csrf_field() }}
+                    <button type="submit" class="btn btn-default btn-flat">Wyloguj się</button>
+                  </form>
+
                 </div>
               </li>
             </ul>
