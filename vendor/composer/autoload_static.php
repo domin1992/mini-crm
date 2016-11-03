@@ -75,11 +75,6 @@ class ComposerStaticInit86860ff647955b843c01b5a3b85168ce
         array (
             'Illuminate\\' => 11,
         ),
-        'H' => 
-        array (
-            'Hesto\\MultiAuth\\' => 16,
-            'Hesto\\Core\\' => 11,
-        ),
         'F' => 
         array (
             'Faker\\' => 6,
@@ -219,14 +214,6 @@ class ComposerStaticInit86860ff647955b843c01b5a3b85168ce
         'Illuminate\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate',
-        ),
-        'Hesto\\MultiAuth\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/hesto/multi-auth/src',
-        ),
-        'Hesto\\Core\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/hesto/core/src',
         ),
         'Faker\\' => 
         array (
@@ -980,21 +967,6 @@ class ComposerStaticInit86860ff647955b843c01b5a3b85168ce
         'Hamcrest\\Type\\IsString' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Type/IsString.php',
         'Hamcrest\\Util' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Util.php',
         'Hamcrest\\Xml\\HasXPath' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Xml/HasXPath.php',
-        'Hesto\\Core\\Commands\\AppendContentCommand' => __DIR__ . '/..' . '/hesto/core/src/Commands/AppendContentCommand.php',
-        'Hesto\\Core\\Commands\\InstallAndReplaceCommand' => __DIR__ . '/..' . '/hesto/core/src/Commands/InstallAndReplaceCommand.php',
-        'Hesto\\Core\\Commands\\InstallCommand' => __DIR__ . '/..' . '/hesto/core/src/Commands/InstallCommand.php',
-        'Hesto\\Core\\Commands\\InstallContentCommand' => __DIR__ . '/..' . '/hesto/core/src/Commands/InstallContentCommand.php',
-        'Hesto\\Core\\Commands\\InstallFilesCommand' => __DIR__ . '/..' . '/hesto/core/src/Commands/InstallFilesCommand.php',
-        'Hesto\\Core\\Commands\\SimpleReplaceContentCommand' => __DIR__ . '/..' . '/hesto/core/src/Commands/SimpleReplaceContentCommand.php',
-        'Hesto\\Core\\Commands\\TemplateGeneratorCommand' => __DIR__ . '/..' . '/hesto/core/src/Commands/TemplateGeneratorCommand.php',
-        'Hesto\\Core\\Parsers\\NameParser' => __DIR__ . '/..' . '/hesto/core/src/Parsers/NameParser.php',
-        'Hesto\\Core\\Traits\\CanReplaceKeywords' => __DIR__ . '/..' . '/hesto/core/src/Traits/CanReplaceKeywords.php',
-        'Hesto\\MultiAuth\\Commands\\AuthFilesInstallCommand' => __DIR__ . '/..' . '/hesto/multi-auth/src/Commands/AuthFilesInstallCommand.php',
-        'Hesto\\MultiAuth\\Commands\\AuthModelInstallCommand' => __DIR__ . '/..' . '/hesto/multi-auth/src/Commands/AuthModelInstallCommand.php',
-        'Hesto\\MultiAuth\\Commands\\AuthSettingsInstallCommand' => __DIR__ . '/..' . '/hesto/multi-auth/src/Commands/AuthSettingsInstallCommand.php',
-        'Hesto\\MultiAuth\\Commands\\AuthViewsInstallCommand' => __DIR__ . '/..' . '/hesto/multi-auth/src/Commands/AuthViewsInstallCommand.php',
-        'Hesto\\MultiAuth\\Commands\\MultiAuthInstallCommand' => __DIR__ . '/..' . '/hesto/multi-auth/src/Commands/MultiAuthInstallCommand.php',
-        'Hesto\\MultiAuth\\MultiAuthServiceProvider' => __DIR__ . '/..' . '/hesto/multi-auth/src/MultiAuthServiceProvider.php',
         'Illuminate\\Auth\\Access\\AuthorizationException' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Auth/Access/AuthorizationException.php',
         'Illuminate\\Auth\\Access\\Gate' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Auth/Access/Gate.php',
         'Illuminate\\Auth\\Access\\HandlesAuthorization' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Auth/Access/HandlesAuthorization.php',

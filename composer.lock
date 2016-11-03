@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "63ce4004714bcabb34b70edbcfc0b94f",
-    "content-hash": "6f3697c92e663d29f7d303744c66fe87",
+    "hash": "dcc7c64dc2167418fedd741871fe23ff",
+    "content-hash": "2af684f13a01de662f9574e5a932ec34",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -221,84 +221,6 @@
             "description": "DOMPDF is a CSS 2.1 compliant HTML to PDF converter",
             "homepage": "https://github.com/dompdf/dompdf",
             "time": "2016-05-11 00:36:29"
-        },
-        {
-            "name": "hesto/core",
-            "version": "v1.0.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Hesto/core.git",
-                "reference": "1e194b269d198b730d20e4243620ca23ac006c9b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Hesto/core/zipball/1e194b269d198b730d20e4243620ca23ac006c9b",
-                "reference": "1e194b269d198b730d20e4243620ca23ac006c9b",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Hesto\\Core\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Hesto",
-                    "email": "losiakp@gmail.com"
-                }
-            ],
-            "description": "Core classes for my other modules",
-            "time": "2016-09-09 13:25:24"
-        },
-        {
-            "name": "hesto/multi-auth",
-            "version": "v1.0.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Hesto/multi-auth.git",
-                "reference": "e53172307990eb28712dcd9d14f7c6632a4cea8b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Hesto/multi-auth/zipball/e53172307990eb28712dcd9d14f7c6632a4cea8b",
-                "reference": "e53172307990eb28712dcd9d14f7c6632a4cea8b",
-                "shasum": ""
-            },
-            "require": {
-                "hesto/core": ">=1.0.3",
-                "php": ">=5.5.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Hesto\\MultiAuth\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Hesto",
-                    "email": "losiakp@gmail.com"
-                }
-            ],
-            "description": "Multi Auth for Laravel 5.3",
-            "keywords": [
-                "auth",
-                "laravel",
-                "multi"
-            ],
-            "time": "2016-09-28 18:00:54"
         },
         {
             "name": "jakub-onderka/php-console-color",

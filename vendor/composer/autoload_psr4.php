@@ -35,8 +35,6 @@ return array(
     'League\\Flysystem\\' => array($vendorDir . '/league/flysystem/src'),
     'Laravel\\Cashier\\' => array($vendorDir . '/laravel/cashier/src'),
     'Illuminate\\' => array($vendorDir . '/laravel/framework/src/Illuminate'),
-    'Hesto\\MultiAuth\\' => array($vendorDir . '/hesto/multi-auth/src'),
-    'Hesto\\Core\\' => array($vendorDir . '/hesto/core/src'),
     'Faker\\' => array($vendorDir . '/fzaninotto/faker/src/Faker'),
     'Dotenv\\' => array($vendorDir . '/vlucas/phpdotenv/src'),
     'Dompdf\\' => array($vendorDir . '/dompdf/dompdf/src'),
