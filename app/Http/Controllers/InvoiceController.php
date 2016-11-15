@@ -72,6 +72,16 @@ class InvoiceController extends Controller
       $invoice = Invoice::find($id);
       $issueDate = Carbon::createFromFormat('Y-m-d', $invoice->issue_date);
       $invoice->issue_date = $issueDate->format('d-m-Y');
+      $invoice->sumPositionsValueTaxExcl = 0.0;
+      $invoice->sumPositionsTaxValue = 0.0;
+      $invoice->sumPositionsValueTaxIncl = 0.0;
+      foreach($invoice->invoicePositions()->get() as $position){
+        $invoice->sumPositionsValueTaxExcl += $position->price_tax_excl;
+        foreach($position->tax()->get() as $tax){
+          $invoice->sumPositionsTaxValue += $tax->value * ($position->price_tax_excl * $position->quantity);
+          $invoice->sumPositionsValueTaxIncl += $tax->value * ($position->price_tax_excl * $position->quantity) + ($position->price_tax_excl * $position->quantity);
+        }
+      }
 
       return view('invoice.show', compact('invoice'));
     }
@@ -118,6 +128,16 @@ class InvoiceController extends Controller
       $invoice = Invoice::find($id);
       $issueDate = Carbon::createFromFormat('Y-m-d', $invoice->issue_date);
       $invoice->issue_date = $issueDate->format('d-m-Y');
+      $invoice->sumPositionsValueTaxExcl = 0.0;
+      $invoice->sumPositionsTaxValue = 0.0;
+      $invoice->sumPositionsValueTaxIncl = 0.0;
+      foreach($invoice->invoicePositions()->get() as $position){
+        $invoice->sumPositionsValueTaxExcl += $position->price_tax_excl;
+        foreach($position->tax()->get() as $tax){
+          $invoice->sumPositionsTaxValue += $tax->value * ($position->price_tax_excl * $position->quantity);
+          $invoice->sumPositionsValueTaxIncl += $tax->value * ($position->price_tax_excl * $position->quantity) + ($position->price_tax_excl * $position->quantity);
+        }
+      }
 
       return view('invoice.show-print', compact('invoice'));
     }

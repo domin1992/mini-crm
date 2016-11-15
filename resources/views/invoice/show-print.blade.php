@@ -67,9 +67,6 @@
           </tr>
         </thead>
         <tbody>
-          {{--*/ $positionsValueTaxExclArray = array(); /*--}}
-          {{--*/ $positionsTaxValueArray = array(); /*--}}
-          {{--*/ $positionsValueTaxInclArray = array(); /*--}}
           @foreach($invoice->invoicePositions()->get() as $key => $position)
             <tr>
               <td>{{ $key + 1 }}</td>
@@ -79,15 +76,11 @@
               <td>{{ $position->quantity }}</td>
               <td>{{ number_format($position->price_tax_excl, 2, ',', '') }} zł</td>
               <td>{{ number_format($position->price_tax_excl * $position->quantity, 2, ',', '') }} zł</td>
-              {{--*/ $positionsValueTaxExclArray[] = $position->price_tax_excl * $position->quantity; /*--}}
               @foreach($position->tax()->get() as $tax)
                 <td>{{ $tax->display }}</td>
-                {{--*/ $positionTax = $tax->value; /*--}}
+                <td>{{ number_format($tax->value * ($position->price_tax_excl * $position->quantity), 2, ',', '') }} zł</td>
+                <td>{{ number_format($tax->value * ($position->price_tax_excl * $position->quantity) + ($position->price_tax_excl * $position->quantity), 2, ',', '') }} zł</td>
               @endforeach
-              <td>{{ number_format($positionTax * ($position->price_tax_excl * $position->quantity), 2, ',', '') }} zł</td>
-              {{--*/ $positionsTaxValueArray[] = $positionTax * ($position->price_tax_excl * $position->quantity); /*--}}
-              <td>{{ number_format($positionTax * ($position->price_tax_excl * $position->quantity) + ($position->price_tax_excl * $position->quantity), 2, ',', '') }} zł</td>
-              {{--*/ $positionsValueTaxInclArray[] = $positionTax * ($position->price_tax_excl * $position->quantity) + ($position->price_tax_excl * $position->quantity); /*--}}
             </tr>
           @endforeach
         </tbody>
@@ -95,10 +88,10 @@
           <tr>
             <td colspan="5"></td>
             <td><strong>Razem</strong></td>
-            <td>{{ number_format(array_sum($positionsValueTaxExclArray), 2, ',', '') }} zł</td>
+            <td>{{ number_format($invoice->sumPositionsValueTaxExcl, 2, ',', '') }} zł</td>
             <td>-</td>
-            <td>{{ number_format(array_sum($positionsTaxValueArray), 2, ',', '') }} zł</td>
-            <td>{{ number_format(array_sum($positionsValueTaxInclArray), 2, ',', '') }} zł</td>
+            <td>{{ number_format($invoice->sumPositionsTaxValue, 2, ',', '') }} zł</td>
+            <td>{{ number_format($invoice->sumPositionsValueTaxIncl, 2, ',', '') }} zł</td>
           </tr>
         </tfoot>
       </table>
