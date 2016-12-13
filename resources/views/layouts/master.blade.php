@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Manager</title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -11,6 +12,7 @@
   <link rel="stylesheet" href="/plugins/datatables/dataTables.bootstrap.css">
   <link rel="stylesheet" href="/plugins/select2/select2.min.css">
   <link rel="stylesheet" href="/plugins/datepicker/datepicker3.css">
+  <link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker.css">
   <link rel="stylesheet" href="/css/admin-lte.min.css">
   <link rel="stylesheet" href="/css/master.css">
   <link rel="stylesheet" href="/css/skins/_all-skins.min.css">
@@ -85,6 +87,11 @@
         <li>
           <a href="/invoice">
             <i class="fa fa-file-text-o"></i> <span>Faktury</span>
+          </a>
+        </li>
+        <li>
+          <a href="/company">
+            <i class="fa fa-building-o"></i> <span>Baza firm</span>
           </a>
         </li>
       </ul>
