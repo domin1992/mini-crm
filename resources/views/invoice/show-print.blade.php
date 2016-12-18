@@ -3,15 +3,21 @@
 @section('content')
 <section class="invoice">
   <div class="row">
-    <div class="col-xs-12">
-      <h2 class="page-header">
-        Company name
+    <div class="col-xs-3">
+      <h2>
+          <img src="/img/logo.png" class="img-responsive" alt="">
       </h2>
     </div>
   </div>
   <div class="row invoice-info">
     <div class="col-xs-6">
-      <b>Faktura {{ $invoice->invoice_number }}</b>
+      <b>
+        Faktura&nbsp;
+        @if($invoice->advance)
+        zaliczkowa&nbsp;
+        @endif
+        {{ $invoice->invoice_number }}
+      </b>
     </div>
     <div class="col-xs-6">
       {{ $invoice->issue_date }}, {{ $invoice->issue_city }}
@@ -21,13 +27,12 @@
     <div class="col-xs-6">
       <strong>Sprzedawca</strong>
       <address>
-        Comapny name<br>
-        NIP: 7894561230<br>
-        ul. Wysokińskiego 92<br>
-        91-555 Łódź<br>
-        Polska<br>
-        Tel: +48 999 999 999<br>
-        Email: test@test.com
+        {{ $owner->name }}<br>
+        NIP: {{ $owner->vat_number }}<br>
+        ul. {{ $owner->street }}<br>
+        {{ $owner->postcode }} {{ $owner->city }}<br>
+        Tel: {{ $owner->phone }}<br>
+        Email: {{ $owner->email }}
       </address>
     </div>
     <div class="col-xs-6">
@@ -44,7 +49,6 @@
             @endif
           <br>
           {{ $address->postcode }} {{ $address->city }}<br>
-          {{ $address->country }}<br>
           @endforeach
         </address>
     </div>
@@ -56,49 +60,40 @@
           <tr>
             <th>L.p.</th>
             <th>Nazwa towaru/usługi</th>
-            <th>Symbol PKWiU</th>
-            <th>J.M.</th>
             <th>Ilość</th>
+            <th>JM</th>
             <th>Cena netto</th>
             <th>Wartość netto</th>
             <th>Stawka VAT</th>
             <th>Kwota VAT</th>
-            <th>Wartość z VAT</th>
+            <th>Wartość z&nbsp;VAT</th>
           </tr>
         </thead>
         <tbody>
-          {{--*/ $positionsValueTaxExclArray = array(); /*--}}
-          {{--*/ $positionsTaxValueArray = array(); /*--}}
-          {{--*/ $positionsValueTaxInclArray = array(); /*--}}
           @foreach($invoice->invoicePositions()->get() as $key => $position)
             <tr>
               <td>{{ $key + 1 }}</td>
               <td>{{ $position->name }}</td>
-              <td>{{ $position->symbol_pkwiu }}</td>
-              <td>{{ $position->measure_unit }}</td>
               <td>{{ $position->quantity }}</td>
-              <td>{{ number_format($position->price_tax_excl, 2, ',', '') }} zł</td>
-              <td>{{ number_format($position->price_tax_excl * $position->quantity, 2, ',', '') }} zł</td>
-              {{--*/ $positionsValueTaxExclArray[] = $position->price_tax_excl * $position->quantity; /*--}}
+              <td>{{ $position->measure_unit }}</td>
+              <td>{{ number_format($position->price_tax_excl, 2, ',', '') }}&nbsp;zł</td>
+              <td>{{ number_format($position->price_tax_excl * $position->quantity, 2, ',', '') }}&nbsp;zł</td>
               @foreach($position->tax()->get() as $tax)
                 <td>{{ $tax->display }}</td>
-                {{--*/ $positionTax = $tax->value; /*--}}
+                <td>{{ number_format($tax->value * ($position->price_tax_excl * $position->quantity), 2, ',', '') }}&nbsp;zł</td>
+                <td>{{ number_format($tax->value * ($position->price_tax_excl * $position->quantity) + ($position->price_tax_excl * $position->quantity), 2, ',', '') }}&nbsp;zł</td>
               @endforeach
-              <td>{{ number_format($positionTax * ($position->price_tax_excl * $position->quantity), 2, ',', '') }} zł</td>
-              {{--*/ $positionsTaxValueArray[] = $positionTax * ($position->price_tax_excl * $position->quantity); /*--}}
-              <td>{{ number_format($positionTax * ($position->price_tax_excl * $position->quantity) + ($position->price_tax_excl * $position->quantity), 2, ',', '') }} zł</td>
-              {{--*/ $positionsValueTaxInclArray[] = $positionTax * ($position->price_tax_excl * $position->quantity) + ($position->price_tax_excl * $position->quantity); /*--}}
             </tr>
           @endforeach
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="5"></td>
+            <td colspan="4"></td>
             <td><strong>Razem</strong></td>
-            <td>{{ number_format(array_sum($positionsValueTaxExclArray), 2, ',', '') }} zł</td>
+            <td>{{ number_format($invoice->sumPositionsValueTaxExcl, 2, ',', '') }}&nbsp;zł</td>
             <td>-</td>
-            <td>{{ number_format(array_sum($positionsTaxValueArray), 2, ',', '') }} zł</td>
-            <td>{{ number_format(array_sum($positionsValueTaxInclArray), 2, ',', '') }} zł</td>
+            <td>{{ number_format($invoice->sumPositionsTaxValue, 2, ',', '') }}&nbsp;zł</td>
+            <td>{{ number_format($invoice->sumPositionsValueTaxIncl, 2, ',', '') }}&nbsp;zł</td>
           </tr>
         </tfoot>
       </table>
@@ -107,9 +102,16 @@
 
   <div class="row">
     <div class="col-xs-6">
-      <p class="lead">Fakturę wystawił</p>
-      <p>
-        John Doe
+      <p class="lead">Do zapłaty:</p>
+      <p class="lead-bottom">{{ number_format($invoice->sumPositionsValueTaxIncl, 2, ',', '') }} zł</p>
+      <p class="lead">Termin płatności:</p>
+      <p class="lead-bottom">{{ $invoice->payment_date }}</p>
+      <p class="lead">Płatność przelewem:</p>
+      <p class="lead-bottom">
+        {{ $owner->name }}<br />
+        {{ $owner->bank_account_number }}<br />
+        ({{ $owner->bank_name }})<br />
+        W tytule przelewu prosimy wpisać numer faktury:<br /><strong>{{ $invoice->invoice_number }}</strong>
       </p>
     </div>
     @if($invoice->comment)

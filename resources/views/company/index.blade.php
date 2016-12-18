@@ -4,20 +4,23 @@
 <section class="content">
   <div class="box">
     <div class="box-header with-border">
-      <h3 class="box-title">Faktury</h3>
+      <h3 class="box-title">Firmy</h3>
     </div>
     <div class="box-body">
       <table id="data-table" class="table table-bordered table-striped">
         <thead>
           <tr>
             <th>
-              Klient
+              Nazwa
             </th>
             <th>
-              Numer faktury
+              NIP
             </th>
             <th>
-              Data wystawienia
+              E-mail
+            </th>
+            <th>
+              Telefon
             </th>
             <th>
               Opcje
@@ -25,37 +28,38 @@
           </tr>
         </thead>
         <tbody>
-          @forelse($invoices as $invoice)
+          @forelse($companies as $company)
             <tr>
               <td>
-                @foreach($invoice->client()->get() as $client)
-                  {{ $client->company }}
-                @endforeach
+                {{ $company->name }}
               </td>
               <td>
-                {{ $invoice->invoice_number }}
+                {{ $company->vat_number }}
               </td>
               <td>
-                {{ $invoice->issue_date }}
+                {{ $company->email }}
+              </td>
+              <td>
+                {{ $company->phone }}
               </td>
               <td>
                 <div class="btn-group">
-                  <a href="/invoice/{{ $invoice->id }}" class="btn btn-info">Zobacz</a>
+                  <a href="/company/{{ $company->id }}" class="btn btn-info">Zobacz</a>
                   <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
                     <span class="caret"></span>
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="/invoice/{{ $invoice->id }}/edit">Edytuj</a></li>
-                    <li><a href="javascript:void(0)" class="delete-invoice" data-invoice="{{ $invoice->id }}">Usuń</a></li>
+                    <li><a href="/company/{{ $company->id }}/edit">Edytuj</a></li>
+                    <li><a href="javascript:void(0)" class="delete-company" data-company="{{ $company->id }}">Usuń</a></li>
                   </ul>
                 </div>
               </td>
             </tr>
           @empty
             <tr>
-              <td colspan="3">
-                Brak faktur
+              <td colspan="5">
+                Brak firm
               </td>
             </tr>
           @endforelse
@@ -64,17 +68,17 @@
     </div>
     <div class="box-footer">
       <div class="row">
-        <div class="col-md-2 pull-right">
-          <a href="/invoice/create" class="btn btn-block btn-info">Nowa faktura</a>
+        <div class="col-md-1 pull-left">
+          <a href="/company-export" class="btn btn-block btn-info">Export</a>
         </div>
-        <div class="col-md-2 pull-right">
-          <a href="/invoice/create?advance=1" class="btn btn-block btn-info">Nowa faktura zaliczkowa</a>
+        <div class="col-md-1 pull-right">
+          <a href="/company/create" class="btn btn-block btn-info">Nowy</a>
         </div>
       </div>
     </div>
   </div>
 </section>
-@include('invoice.partials.modal-invoice-delete')
+@include('company.partials.modal-company-delete')
 @endsection
 
 @section('script')
@@ -83,9 +87,9 @@
 <script>
   $("#data-table").DataTable();
 
-  $('.delete-invoice').click(function(){
-    $('#form-invoice-delete').attr('action', '/invoice/' + $(this).data('invoice'));
-    $('.modal-invoice-delete').modal('show');
+  $('.delete-company').click(function(){
+    $('#form-company-delete').attr('action', '/company/' + $(this).data('company'));
+    $('.modal-company-delete').modal('show');
   });
 </script>
 @endsection

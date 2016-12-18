@@ -18,7 +18,7 @@
         </div>
         <div class="row">
           <div class="col-md-2"><strong>E-mail</strong></div>
-          <div class="col-md-10"><a href="{{ $client->email }}">{{ $client->email }}</a></div>
+          <div class="col-md-10"><a href="mailto:{{ $client->email }}">{{ $client->email }}</a></div>
         </div>
       </div>
       <div class="box-footer">

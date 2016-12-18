@@ -20,6 +20,8 @@ class CreateInvoiceTable extends Migration
           $table->string('issue_city');
           $table->date('issue_date');
           $table->string('issue_name');
+          $table->date('payment_date');
+          $table->boolean('advance')->comment('faktura zaliczkowa')->default(false);
           $table->string('comment')->nullable();
           $table->timestamps();
       });
