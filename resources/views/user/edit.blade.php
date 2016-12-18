@@ -41,6 +41,18 @@
             </div>
           </div>
         </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Uprawnienia</label>
+          <div class="col-sm-10">
+            @foreach($controllers as $index => $controller)
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" id="controller_{{ $index }}" name="{{ $controller['name'] }}" @if(in_array($controller['name'], $userControllers)) checked @endif> {{ $controller['display'] }}
+                </label>
+              </div>
+            @endforeach
+          </div>
+        </div>
         <input type="hidden" name="_method" value="PUT">
         {{ csrf_field() }}
       </div>

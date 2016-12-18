@@ -20,6 +20,18 @@
           <div class="col-md-2"><strong>Admin</strong></div>
           <div class="col-md-10">@if($user->admin == 1) Tak @else Nie @endif</div>
         </div>
+        @if($user->admin == 0)
+          <div class="row">
+            <div class="col-md-2"><strong>Uprawnienia</strong></div>
+            <div class="col-md-10">
+              @foreach($controllers as $controller)
+                @if(in_array($controller['name'], $userControllers))
+                  {{ $controller['display'] }}<br />
+                @endif
+              @endforeach
+            </div>
+          </div>
+        @endif
       </div>
       <div class="box-footer">
         <div class="row">
