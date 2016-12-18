@@ -16,9 +16,8 @@ class CreateInvoicePositionTable extends Migration
           $table->increments('id');
           $table->integer('invoice_id');
           $table->string('name');
-          $table->string('symbol_pkwiu');
-          $table->string('measure_unit');
           $table->integer('quantity');
+          $table->string('measure_unit');
           $table->decimal('price_tax_excl', 20, 2);
           $table->integer('tax_id');
           $table->timestamps();

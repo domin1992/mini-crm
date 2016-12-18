@@ -4,7 +4,11 @@
 <section class="content">
   <div class="box">
     <div class="box-header with-border">
-      <h3 class="box-title">Dodaj nową fakturę</h3>
+      <h3 class="box-title">Dodaj nową fakturę
+          @if($request->input('advance') == 1)
+            zaliczkową
+          @endif
+      </h3>
     </div>
     <form class="form-horizontal" action="/invoice" method="POST">
       <div class="box-body">
@@ -40,6 +44,12 @@
           </div>
         </div>
         <div class="form-group">
+          <label for="payment_date" class="col-sm-2 control-label">Termin zapłaty <span class="required">*</span></label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="payment_date" name="payment_date">
+          </div>
+        </div>
+        <div class="form-group">
           <label for="issue_city" class="col-sm-2 control-label">Miejsce wystawienia <span class="required">*</span></label>
           <div class="col-sm-10">
             <input type="text" class="form-control" id="issue_city" name="issue_city">
@@ -64,9 +74,8 @@
               <thead>
                 <tr>
                   <th>Nazwa <span class="required">*</span></th>
-                  <th>Symbol PKWiU <span class="required">*</span></th>
-                  <th>J.M. <span class="required">*</span></th>
                   <th>Ilość <span class="required">*</span></th>
+                  <th>JM <span class="required">*</span></th>
                   <th>Cena netto <span class="required">*</span></th>
                   <th>Podatek VAT <span class="required">*</span></th>
                   <th>Usuń</th>
@@ -83,6 +92,9 @@
           </div>
         </div>
         <input type="hidden" id="positions_list" name="positions_list">
+        @if($request->input('advance') == 1)
+          <input type="hidden" id="advance" name="advance" value="1">
+        @endif
         {{ csrf_field() }}
       </div>
       <div class="box-footer">
@@ -131,9 +143,8 @@
         var row = '';
         row += '<tr data-row="' + next + '">';
         row += '<td><input type="text" class="form-control" name="' + next + '_name"></td>';
-        row += '<td><input type="text" class="form-control" name="' + next + '_symbol_pkwiu"></td>';
-        row += '<td><input type="text" class="form-control" name="' + next + '_measure_unit"></td>';
         row += '<td><input type="text" class="form-control" name="' + next + '_quantity"></td>';
+        row += '<td><input type="text" class="form-control" name="' + next + '_measure_unit"></td>';
         row += '<td><input type="text" class="form-control" name="' + next + '_price_tax_excl"></td>';
         row += '<td><select class="form-control" name="' + next + '_tax_id">';
         row += '<option value="0" selected="selected">Wybierz</option>';
@@ -158,6 +169,14 @@
 
       // Init datepicker plugin
       $('#issue_date').datepicker({
+        language: 'pl',
+        defaultViewDate: 'today',
+        todayBtn: true,
+        todayHighlight: true,
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+      });
+      $('#payment_date').datepicker({
         language: 'pl',
         defaultViewDate: 'today',
         todayBtn: true,

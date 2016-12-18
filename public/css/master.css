@@ -23,3 +23,11 @@ span.required{
 .invoice-info{
   margin-bottom: 15px;
 }
+
+.lead{
+    margin-bottom: 0px;
+}
+
+.lead-bottom{
+    margin-bottom: 20px;
+}

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Invoice extends Model
 {
   protected $fillable = [
-    'client_id', 'address_id', 'invoice_number', 'issue_city', 'issue_date', 'issue_name', 'comment'
+    'client_id', 'address_id', 'invoice_number', 'issue_city', 'issue_date', 'issue_name', 'payment_date', 'advance', 'comment'
   ];
 
   public function invoicePositions(){

@@ -64,8 +64,11 @@
     </div>
     <div class="box-footer">
       <div class="row">
-        <div class="col-md-1 pull-right">
-          <a href="/invoice/create" class="btn btn-block btn-info">Nowy</a>
+        <div class="col-md-2 pull-right">
+          <a href="/invoice/create" class="btn btn-block btn-info">Nowa faktura</a>
+        </div>
+        <div class="col-md-2 pull-right">
+          <a href="/invoice/create?advance=1" class="btn btn-block btn-info">Nowa faktura zaliczkowa</a>
         </div>
       </div>
     </div>

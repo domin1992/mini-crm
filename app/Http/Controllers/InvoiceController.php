@@ -8,6 +8,7 @@ use App\Http\Requests;
 
 use App\Invoice;
 use App\InvoicePosition;
+use App\Owner;
 
 use Carbon\Carbon;
 
@@ -30,9 +31,9 @@ class InvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-      return view('invoice.create');
+      return view('invoice.create', ['request' => $request]);
     }
 
     /**
@@ -50,9 +51,8 @@ class InvoiceController extends Controller
         $invoicePosition = new InvoicePosition;
         $invoicePosition->invoice_id = $invoice->id;
         $invoicePosition->name = $request->input($position.'_name');
-        $invoicePosition->symbol_pkwiu = $request->input($position.'_symbol_pkwiu');
-        $invoicePosition->measure_unit = $request->input($position.'_measure_unit');
         $invoicePosition->quantity = $request->input($position.'_quantity');
+        $invoicePosition->measure_unit = $request->input($position.'_measure_unit');
         $invoicePosition->price_tax_excl = str_replace(',', '.', $request->input($position.'_price_tax_excl'));
         $invoicePosition->tax_id = $request->input($position.'_tax_id');
         $invoicePosition->save();
@@ -83,7 +83,9 @@ class InvoiceController extends Controller
         }
       }
 
-      return view('invoice.show', compact('invoice'));
+      $owner = Owner::first();
+
+      return view('invoice.show', ['invoice' => $invoice, 'owner' => $owner]);
     }
 
     /**
@@ -139,6 +141,8 @@ class InvoiceController extends Controller
         }
       }
 
-      return view('invoice.show-print', compact('invoice'));
+      $owner = Owner::first();
+
+      return view('invoice.show-print', ['invoice' => $invoice, 'owner' => $owner]);
     }
 }

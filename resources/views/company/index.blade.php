@@ -58,7 +58,7 @@
             </tr>
           @empty
             <tr>
-              <td colspan="3">
+              <td colspan="5">
                 Brak firm
               </td>
             </tr>
