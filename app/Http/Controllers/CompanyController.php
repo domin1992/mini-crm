@@ -54,7 +54,7 @@ class CompanyController extends Controller
         $updateCounter = 0;
 
         foreach($xml->InformacjaOWpisie as $wpis){
-            if($wpis->DaneKontaktowe->AdresPocztyElektronicznej != '' && $wpis->DaneKontaktowe->Telefon != ''){
+            if($wpis->DaneKontaktowe->AdresPocztyElektronicznej != '' || $wpis->DaneKontaktowe->Telefon != ''){
                 $addCounter++;
                 if($company = Company::where('vat_number', $wpis->DanePodstawowe->NIP)->first()){
                     $company->name = $wpis->DanePodstawowe->Firma;
