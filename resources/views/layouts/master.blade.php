@@ -94,6 +94,11 @@
             <i class="fa fa-building-o"></i> <span>Baza firm</span>
           </a>
         </li>
+        <li @if(strpos(Route::currentRouteName(), 'user') !== false) class="active" @endif>
+          <a href="/user">
+            <i class="fa fa-male"></i> <span>Użytkownicy</span>
+          </a>
+        </li>
       </ul>
     </section>
   </aside>
