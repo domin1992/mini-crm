@@ -19,8 +19,9 @@ Route::get('/', function () {
 
 Route::group(['middleware' => 'auth'], function(){
   Route::get('/', function(){
-    return view('dashboard');
+    return redirect('/dashboard');
   });
+  Route::resource('dashboard', 'DashboardController');
   Route::resource('client', 'ClientController');
   Route::resource('address', 'AddressController');
   Route::resource('contact', 'ContactController');

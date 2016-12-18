@@ -69,27 +69,27 @@
   <aside class="main-sidebar">
     <section class="sidebar">
       <ul class="sidebar-menu">
-        <li>
-          <a href="/">
+        <li @if(strpos(Route::currentRouteName(), 'dashboard') !== false) class="active" @endif>
+          <a href="/dashboard">
             <i class="fa fa-desktop"></i> <span>Pulpit</span>
           </a>
         </li>
-        <li>
+        <li @if(strpos(Route::currentRouteName(), 'client') !== false) class="active" @endif>
           <a href="/client">
             <i class="fa fa-user"></i> <span>Klienci</span>
           </a>
         </li>
-        <li>
+        <li @if(strpos(Route::currentRouteName(), 'employee') !== false) class="active" @endif>
           <a href="/employee">
             <i class="fa fa-group"></i> <span>Pracownicy</span>
           </a>
         </li>
-        <li>
+        <li @if(strpos(Route::currentRouteName(), 'invoice') !== false) class="active" @endif>
           <a href="/invoice">
             <i class="fa fa-file-text-o"></i> <span>Faktury</span>
           </a>
         </li>
-        <li>
+        <li @if(strpos(Route::currentRouteName(), 'company') !== false) class="active" @endif>
           <a href="/company">
             <i class="fa fa-building-o"></i> <span>Baza firm</span>
           </a>
