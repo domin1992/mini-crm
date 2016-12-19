@@ -26,7 +26,6 @@ class CreateCompaniesTable extends Migration
             $table->string('street');
             $table->string('status');
             $table->string('pkd_codes');
-            $table->text('comment')->nullable();
             $table->timestamps();
         });
     }
