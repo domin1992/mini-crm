@@ -59,7 +59,6 @@ class RecurringPaymentController extends Controller
      */
     public function store(Request $request)
     {
-      // RecurringPayment::create($request->all());
       $recurringPayment = new RecurringPayment;
       $recurringPayment->client_id = $request->input('client_id');
       $recurringPayment->name = $request->input('name');
