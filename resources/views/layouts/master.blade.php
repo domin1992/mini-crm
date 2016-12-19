@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="/plugins/select2/select2.min.css">
   <link rel="stylesheet" href="/plugins/datepicker/datepicker3.css">
   <link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" href="/plugins/timepicker/bootstrap-timepicker.min.css">
   <link rel="stylesheet" href="/css/admin-lte.min.css">
   <link rel="stylesheet" href="/css/master.css">
   <link rel="stylesheet" href="/css/skins/_all-skins.min.css">
@@ -92,6 +93,11 @@
         <li @if(strpos(Route::currentRouteName(), 'company') !== false) class="active" @endif>
           <a href="/company">
             <i class="fa fa-building-o"></i> <span>Baza firm</span>
+          </a>
+        </li>
+        <li @if(strpos(Route::currentRouteName(), 'recurring-payment') !== false) class="active" @endif>
+          <a href="/recurring-payment">
+            <i class="fa fa-credit-card"></i> <span>Płatności cykliczne</span>
           </a>
         </li>
         <li @if(strpos(Route::currentRouteName(), 'user') !== false) class="active" @endif>

@@ -29,6 +29,7 @@ Route::group(['middleware' => 'auth'], function(){
   Route::resource('invoice', 'InvoiceController');
   Route::resource('company', 'CompanyController');
   Route::resource('user', 'UserController');
+  Route::resource('recurring-payment', 'RecurringPaymentController');
   Route::get('invoice-print/{id}', 'InvoiceController@showPrint');
   Route::get('ajax-client/{id}', 'ClientController@ajaxShow');
   Route::get('ajax-tax', 'TaxController@ajaxIndex');

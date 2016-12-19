@@ -9,6 +9,7 @@ class AvailableControllers{
     ['name' => 'App\Http\Controllers\EmployeeController', 'display' => 'Employee'],
     ['name' => 'App\Http\Controllers\InvoiceController', 'display' => 'Invoice'],
     ['name' => 'App\Http\Controllers\UserController', 'display' => 'User'],
+    ['name' => 'App\Http\Controllers\RecurringPaymentController', 'display' => 'Recurring Payment'],
   ];
 
   public static function getControllers(){
