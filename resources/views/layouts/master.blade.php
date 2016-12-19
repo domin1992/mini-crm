@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="/plugins/select2/select2.min.css">
   <link rel="stylesheet" href="/plugins/datepicker/datepicker3.css">
   <link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" href="/plugins/timepicker/bootstrap-timepicker.min.css">
   <link rel="stylesheet" href="/css/admin-lte.min.css">
   <link rel="stylesheet" href="/css/master.css">
   <link rel="stylesheet" href="/css/skins/_all-skins.min.css">
@@ -69,29 +70,39 @@
   <aside class="main-sidebar">
     <section class="sidebar">
       <ul class="sidebar-menu">
-        <li>
-          <a href="/">
+        <li @if(strpos(Route::currentRouteName(), 'dashboard') !== false) class="active" @endif>
+          <a href="/dashboard">
             <i class="fa fa-desktop"></i> <span>Pulpit</span>
           </a>
         </li>
-        <li>
+        <li @if(strpos(Route::currentRouteName(), 'client') !== false) class="active" @endif>
           <a href="/client">
             <i class="fa fa-user"></i> <span>Klienci</span>
           </a>
         </li>
-        <li>
+        <li @if(strpos(Route::currentRouteName(), 'employee') !== false) class="active" @endif>
           <a href="/employee">
             <i class="fa fa-group"></i> <span>Pracownicy</span>
           </a>
         </li>
-        <li>
+        <li @if(strpos(Route::currentRouteName(), 'invoice') !== false) class="active" @endif>
           <a href="/invoice">
             <i class="fa fa-file-text-o"></i> <span>Faktury</span>
           </a>
         </li>
-        <li>
+        <li @if(strpos(Route::currentRouteName(), 'company') !== false) class="active" @endif>
           <a href="/company">
             <i class="fa fa-building-o"></i> <span>Baza firm</span>
+          </a>
+        </li>
+        <li @if(strpos(Route::currentRouteName(), 'recurring-payment') !== false) class="active" @endif>
+          <a href="/recurring-payment">
+            <i class="fa fa-credit-card"></i> <span>Płatności cykliczne</span>
+          </a>
+        </li>
+        <li @if(strpos(Route::currentRouteName(), 'user') !== false) class="active" @endif>
+          <a href="/user">
+            <i class="fa fa-male"></i> <span>Użytkownicy</span>
           </a>
         </li>
       </ul>

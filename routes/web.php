@@ -19,14 +19,17 @@ Route::get('/', function () {
 
 Route::group(['middleware' => 'auth'], function(){
   Route::get('/', function(){
-    return view('dashboard');
+    return redirect('/dashboard');
   });
+  Route::resource('dashboard', 'DashboardController');
   Route::resource('client', 'ClientController');
   Route::resource('address', 'AddressController');
   Route::resource('contact', 'ContactController');
   Route::resource('employee', 'EmployeeController');
   Route::resource('invoice', 'InvoiceController');
   Route::resource('company', 'CompanyController');
+  Route::resource('user', 'UserController');
+  Route::resource('recurring-payment', 'RecurringPaymentController');
   Route::get('invoice-print/{id}', 'InvoiceController@showPrint');
   Route::get('ajax-client/{id}', 'ClientController@ajaxShow');
   Route::get('ajax-tax', 'TaxController@ajaxIndex');

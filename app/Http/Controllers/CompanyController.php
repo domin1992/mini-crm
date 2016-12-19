@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Filesystem\Filesystem;
 use Carbon\Carbon;
+use Auth;
 
 use App\Http\Requests;
 
 use App\Company;
+use App\CompanyComment;
 
 class CompanyController extends Controller
 {
@@ -101,6 +103,12 @@ class CompanyController extends Controller
     public function show($id)
     {
         $company = Company::find($id);
+        if(($companyComment = CompanyComment::where([['company_id', '=', $company->id], ['user_id', '=', Auth::User()->id]])->first()) != null){
+          $company->comment = $companyComment->comment;
+        }
+        else{
+          $company->comment = '';
+        }
 
         return view('company.show', compact('company'));
     }
@@ -114,6 +122,12 @@ class CompanyController extends Controller
     public function edit($id)
     {
         $company = Company::find($id);
+        if(($companyComment = CompanyComment::where([['company_id', '=', $company->id], ['user_id', '=', Auth::User()->id]])->first()) != null){
+          $company->comment = $companyComment->comment;
+        }
+        else{
+          $company->comment = '';
+        }
 
         return view('company.edit', compact('company'));
     }
@@ -129,6 +143,13 @@ class CompanyController extends Controller
     {
         $company = Company::find($id);
         $company->update($request->all());
+        if(($companyComment = CompanyComment::where([['company_id', '=', $company->id], ['user_id', '=', Auth::User()->id]])->first()) == null){
+          $companyComment = new CompanyComment;
+          $companyComment->company_id = $company->id;
+          $companyComment->user_id = Auth::User()->id;
+        }
+        $companyComment->comment = $request->input('comment');
+        $companyComment->save();
 
         return redirect('/company/'.$id);
     }
