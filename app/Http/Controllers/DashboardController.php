@@ -13,7 +13,16 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+      $statistics = [
+        'clients' => \App\Client::all()->count(),
+        'employees' => \App\Employee::all()->count(),
+        'invoices' => \App\Invoice::all()->count(),
+        'companies' => \App\Company::all()->count(),
+        'recurringPayments' => \App\RecurringPayment::all()->count(),
+        'users' => \App\User::all()->count(),
+      ];
+
+      return view('dashboard.index', ['statistics' => $statistics]);
     }
 
     /**
