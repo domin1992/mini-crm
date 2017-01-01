@@ -50,7 +50,14 @@
         </div>
         <div class="row">
           <div class="col-md-2"><strong>Kody PKD</strong></div>
-          <div class="col-md-10">{{ $company->pkd_codes }}</div>
+          <div class="col-md-10">
+            @foreach($companyPkdCodesShow as $key => $companyPkdCode)
+              @if($key != 0)
+                ,
+              @endif
+              <span data-toggle="popover" title="{{ $companyPkdCode['name'] }}" data-content="{{ $companyPkdCode['description'] }}" data-html="true" data-trigger="hover" data-placement="right" style="text-decoration: underline;">{{ $companyPkdCode['code'] }}</span>
+            @endforeach
+          </div>
         </div>
         <div class="row">
           <div class="col-md-2"><strong>Komentarz</strong></div>
@@ -81,5 +88,7 @@
     $('#form-company-delete').attr('action', '/company/' + $(this).data('company'));
     $('.modal-company-delete').modal('show');
   });
+
+  $('[data-toggle="popover"]').popover()
 </script>
 @endsection

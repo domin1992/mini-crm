@@ -31,3 +31,20 @@ span.required{
 .lead-bottom{
     margin-bottom: 20px;
 }
+
+.popover{
+  max-width: 600px;
+}
+
+.popover .popover-content{
+  font-size: 11px;
+}
+
+.popover .popover-content h2{
+  font-size: 13px;
+  margin: 0 0 5px 0;
+}
+
+.popover .popover-content p, .popover .popover-content ul{
+  margin-bottom: 5px;
+}
