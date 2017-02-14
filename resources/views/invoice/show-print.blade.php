@@ -43,7 +43,7 @@
             NIP: {{ $client->nip }}<br>
           @endforeach
           @foreach($invoice->address()->get() as $address)
-            ul. {{ $address->street }} {{ $address->street_number }}
+            {{ $address->street }} {{ $address->street_number }}
             @if($address->apartment_number)
               m. {{ $address->apartment_number }}
             @endif
