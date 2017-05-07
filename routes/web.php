@@ -35,4 +35,12 @@ Route::group(['middleware' => 'auth'], function(){
   Route::get('ajax-tax', 'TaxController@ajaxIndex');
   Route::get('company-export', 'CompanyController@export');
   Route::post('company-export', 'CompanyController@makeExport');
+  Route::resource('mileage', 'MileageController');
+  Route::get('mileage-print/{id}', 'MileageController@showPrint');
+  Route::get('mileage-record/{id}', 'MileageRecordController@index');
+  Route::get('mileage-record/create/{id}', 'MileageRecordController@create');
+  Route::post('mileage-record', 'MileageRecordController@store');
+  Route::get('mileage-record/{id}/edit', 'MileageRecordController@edit');
+  Route::put('mileage-record/{id}', 'MileageRecordController@update');
+  Route::delete('mileage-record/{id}', 'MileageRecordController@destroy');
 });
