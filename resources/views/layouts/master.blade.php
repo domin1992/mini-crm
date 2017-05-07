@@ -105,6 +105,11 @@
             <i class="fa fa-male"></i> <span>Użytkownicy</span>
           </a>
         </li>
+        <li @if(strpos(Route::currentRouteName(), 'mileage') !== false) class="active" @endif>
+          <a href="/mileage">
+            <i class="fa fa-tachometer"></i> <span>Kilometrówka</span>
+          </a>
+        </li>
       </ul>
     </section>
   </aside>
