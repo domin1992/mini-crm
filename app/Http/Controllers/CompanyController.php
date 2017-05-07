@@ -11,6 +11,7 @@ use App\Http\Requests;
 
 use App\Company;
 use App\CompanyComment;
+use App\Pkd;
 
 class CompanyController extends Controller
 {
@@ -103,6 +104,18 @@ class CompanyController extends Controller
     public function show($id)
     {
         $company = Company::find($id);
+
+        $companyPkdCodes = explode(',', $company->pkd_codes);
+        $companyPkdCodesShow = [];
+        foreach($companyPkdCodes as $companyPkdCode){
+          $pkd = Pkd::where('symbol_rewrite', '=', $companyPkdCode)->first();
+          $companyPkdCodesShow[] = [
+            'code' => $companyPkdCode,
+            'name' => $pkd->name,
+            'description' => $pkd->description
+          ];
+        }
+
         if(($companyComment = CompanyComment::where([['company_id', '=', $company->id], ['user_id', '=', Auth::User()->id]])->first()) != null){
           $company->comment = $companyComment->comment;
         }
@@ -110,7 +123,7 @@ class CompanyController extends Controller
           $company->comment = '';
         }
 
-        return view('company.show', compact('company'));
+        return view('company.show', ['company' => $company, 'companyPkdCodesShow' => $companyPkdCodesShow]);
     }
 
     /**

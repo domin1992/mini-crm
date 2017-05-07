@@ -50,6 +50,16 @@
           </div>
         </div>
         <div class="form-group">
+          <label for="payment_method" class="col-sm-2 control-label">Metoda płatności <span class="required">*</span></label>
+          <div class="col-sm-10">
+            <select class="form-control" id="payment_method" name="payment_method">
+              <option value="0" selected="selected">Przelew</option>
+              <option value="1">Gotówka</option>
+              <option value="2">Gotówka (zapłacono)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
           <label for="issue_city" class="col-sm-2 control-label">Miejsce wystawienia <span class="required">*</span></label>
           <div class="col-sm-10">
             <input type="text" class="form-control" id="issue_city" name="issue_city">

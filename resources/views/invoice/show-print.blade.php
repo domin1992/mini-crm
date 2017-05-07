@@ -43,7 +43,7 @@
             NIP: {{ $client->nip }}<br>
           @endforeach
           @foreach($invoice->address()->get() as $address)
-            ul. {{ $address->street }} {{ $address->street_number }}
+            {{ $address->street }} {{ $address->street_number }}
             @if($address->apartment_number)
               m. {{ $address->apartment_number }}
             @endif
@@ -106,13 +106,19 @@
       <p class="lead-bottom">{{ number_format($invoice->sumPositionsValueTaxIncl, 2, ',', '') }} zł</p>
       <p class="lead">Termin płatności:</p>
       <p class="lead-bottom">{{ $invoice->payment_date }}</p>
-      <p class="lead">Płatność przelewem:</p>
-      <p class="lead-bottom">
-        {{ $owner->name }}<br />
-        {{ $owner->bank_account_number }}<br />
-        ({{ $owner->bank_name }})<br />
-        W tytule przelewu prosimy wpisać numer faktury:<br /><strong>{{ $invoice->invoice_number }}</strong>
-      </p>
+      @if($invoice->payment_method == 0)
+        <p class="lead">Płatność przelewem:</p>
+        <p class="lead-bottom">
+          {{ $owner->name }}<br />
+          {{ $owner->bank_account_number }}<br />
+          ({{ $owner->bank_name }})<br />
+          W tytule przelewu prosimy wpisać numer faktury <strong>{{ $invoice->invoice_number }}</strong>
+        </p>
+      @elseif($invoice->payment_method == 1)
+        <p class="lead">Płatność gotówką</p>
+      @elseif($invoice->payment_method == 2)
+        <p class="lead">Płatność gotówką (zapłacono)</p>
+      @endif
     </div>
     @if($invoice->comment)
       <div class="col-xs-6">
