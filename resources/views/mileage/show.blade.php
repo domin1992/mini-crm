@@ -63,9 +63,9 @@
                                 <td>{{ $record->departure }}</td>
                                 <td>{{ $record->route_description }}</td>
                                 <td>{{ $record->reason }}</td>
-                                <td>{{ number_format($record->distance, 2, ',', ' ') }}</td>
-                                <td>{{ number_format($record->rate, 4, ',', ' ') }}</td>
-                                <td>{{ number_format($record->value, 2, ',', ' ') }}</td>
+                                <td>{{ number_format($record->distance, 2, ',', ' ') }} km</td>
+                                <td>{{ number_format($record->rate, 4, ',', ' ') }} zł</td>
+                                <td>{{ number_format($record->value, 2, ',', ' ') }} zł</td>
                                 <td>{{ $record->comments }}</td>
                             </tr>
                         @empty
