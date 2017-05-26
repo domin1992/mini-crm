@@ -44,21 +44,37 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-      $invoice = Invoice::create($request->all());
+        // $invoice = Invoice::create($request->all());
+        $invoice = new Invoice;
+        $invoice->client_id = $request->client_id;
+        $invoice->address_id = $request->address_id;
+        $invoicesCount = Invoice::where([['issue_date', '>=', Carbon::now()->format('Y-m-1')], ['issue_date', '<=', Carbon::now()->format('Y-m-31')]])->count();
+        $issueDate = Carbon::createFromFormat('Y-m-d', $request->issue_date);
+        if($request->advance == 1)
+            $invoice->invoice_number = 'FVZAL/'.$issueDate->format('Y/m').'/'.(($invoicesCount + 1) < 10 ? '0'.($invoicesCount + 1) : $invoicesCount + 1);
+        else
+            $invoice->invoice_number = 'FV/'.$issueDate->format('Y/m').'/'.(($invoicesCount + 1) < 10 ? '0'.($invoicesCount + 1) : $invoicesCount + 1);
+        $invoice->issue_city = $request->issue_city;
+        $invoice->issue_date = $request->issue_date;
+        $invoice->payment_date = $request->payment_date;
+        $invoice->advance = $request->advance;
+        $invoice->comment = $request->comment;
+        $invoice->payment_method = $request->payment_method;
+        $invoice->save();
 
-      $positionsList = explode(',', $request->input('positions_list'));
-      foreach($positionsList as $position){
-        $invoicePosition = new InvoicePosition;
-        $invoicePosition->invoice_id = $invoice->id;
-        $invoicePosition->name = $request->input($position.'_name');
-        $invoicePosition->quantity = $request->input($position.'_quantity');
-        $invoicePosition->measure_unit = $request->input($position.'_measure_unit');
-        $invoicePosition->price_tax_excl = str_replace(',', '.', $request->input($position.'_price_tax_excl'));
-        $invoicePosition->tax_id = $request->input($position.'_tax_id');
-        $invoicePosition->save();
-      }
+        $positionsList = explode(',', $request->input('positions_list'));
+        foreach($positionsList as $position){
+            $invoicePosition = new InvoicePosition;
+            $invoicePosition->invoice_id = $invoice->id;
+            $invoicePosition->name = $request->input($position.'_name');
+            $invoicePosition->quantity = $request->input($position.'_quantity');
+            $invoicePosition->measure_unit = $request->input($position.'_measure_unit');
+            $invoicePosition->price_tax_excl = str_replace(',', '.', $request->input($position.'_price_tax_excl'));
+            $invoicePosition->tax_id = $request->input($position.'_tax_id');
+            $invoicePosition->save();
+        }
 
-      return redirect('/invoice');
+        return redirect('/invoice');
     }
 
     /**

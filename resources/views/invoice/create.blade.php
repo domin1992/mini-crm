@@ -32,12 +32,6 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="invoice_number" class="col-sm-2 control-label">Numer faktury <span class="required">*</span></label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="invoice_number" name="invoice_number">
-          </div>
-        </div>
-        <div class="form-group">
           <label for="issue_date" class="col-sm-2 control-label">Data wystawienia <span class="required">*</span></label>
           <div class="col-sm-10">
             <input type="text" class="form-control" id="issue_date" name="issue_date">
@@ -63,12 +57,6 @@
           <label for="issue_city" class="col-sm-2 control-label">Miejsce wystawienia <span class="required">*</span></label>
           <div class="col-sm-10">
             <input type="text" class="form-control" id="issue_city" name="issue_city">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="issue_name" class="col-sm-2 control-label">Fakturę wystawił <span class="required">*</span></label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="issue_name" name="issue_name">
           </div>
         </div>
         <div class="form-group">
@@ -104,6 +92,8 @@
         <input type="hidden" id="positions_list" name="positions_list">
         @if($request->input('advance') == 1)
           <input type="hidden" id="advance" name="advance" value="1">
+        @else
+          <input type="hidden" id="advance" name="advance" value="0">
         @endif
         {{ csrf_field() }}
       </div>
