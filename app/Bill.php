@@ -11,14 +11,18 @@ class Bill extends Model
     ];
 
     public function billPositions(){
-      return $this->hasMany('App\BillPosition');
+        return $this->hasMany('App\BillPosition');
     }
 
     public function client(){
-      return $this->belongsTo('App\Client');
+        return $this->belongsTo('App\Client');
     }
 
     public function address(){
-      return $this->belongsTo('App\Address');
+        return $this->belongsTo('App\Address');
+    }
+
+    public function paymentMethod(){
+        return $this->belongsTo('App\PaymentMethod');
     }
 }

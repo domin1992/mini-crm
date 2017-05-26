@@ -49,9 +49,9 @@ class BillController extends Controller
         $bill->issue_city = $request->issue_city;
         $bill->issue_date = $request->issue_date;
         $bill->sell_date = $request->sell_date;
-        $bill->payment_method = $request->payment_method;
+        $bill->payment_method_id = $request->payment_method_id;
+        $bill->paid = ($request->paid == 'on' ? 1 : 0);
         $bill->save();
-
 
         $positionsList = explode(',', $request->input('positions_list'));
         foreach($positionsList as $position){

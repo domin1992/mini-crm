@@ -105,12 +105,12 @@
                 <p class="lead-bottom">{{ number_format($bill->sumPositionsValueTaxIncl, 2, ',', '') }} zł</p>
                 <p class="lead">Data sprzedaży:</p>
                 <p class="lead-bottom">{{ $bill->sell_date }}</p>
-                @if($bill->payment_method == 0)
-                    <p class="lead">Zapłacono przelewem</p>
-                @elseif($bill->payment_method == 1)
-                    <p class="lead">Zapłacono gotówką</p>
-                @elseif($bill->payment_method == 2)
-                    <p class="lead">Zapłacono przez PayU</p>
+                @if($bill->paymentMethod()->first()->module_name == 'bank_transfer')
+                    <p class="lead">Płatność przelewem{{ ($bill->paid ? ' (zapłacono)' : '') }}</p>
+                @elseif($bill->paymentMethod()->first()->module_name == 'cash')
+                    <p class="lead">Płatność gotówką{{ ($bill->paid ? ' (zapłacono)' : '') }}</p>
+                @elseif($bill->paymentMethod()->first()->module_name == 'payu')
+                    <p class="lead">PayU{{ ($bill->paid ? ' (zapłacono)' : '') }}</p>
                 @endif
             </div>
         </div>
