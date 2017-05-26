@@ -48,8 +48,11 @@
           <div class="col-sm-10">
             <select class="form-control" id="payment_method" name="payment_method">
               <option value="0" selected="selected">Przelew</option>
+              <option value="3">Przelew (zapłacono)</option>
               <option value="1">Gotówka</option>
               <option value="2">Gotówka (zapłacono)</option>
+              <option value="4">PayU</option>
+              <option value="5">PayU (zapłacono)</option>
             </select>
           </div>
         </div>

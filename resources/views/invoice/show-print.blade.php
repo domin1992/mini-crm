@@ -118,6 +118,12 @@
         <p class="lead">Płatność gotówką</p>
       @elseif($invoice->payment_method == 2)
         <p class="lead">Płatność gotówką (zapłacono)</p>
+      @elseif($invoice->payment_method == 3)
+        <p class="lead">Przelew (zapłacono)</p>
+      @elseif($invoice->payment_method == 4)
+        <p class="lead">PayU</p>
+      @elseif($invoice->payment_method == 5)
+        <p class="lead">PayU (zapłacono)</p>
       @endif
     </div>
     @if($invoice->comment)
