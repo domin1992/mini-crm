@@ -44,12 +44,11 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        // $invoice = Invoice::create($request->all());
         $invoice = new Invoice;
         $invoice->client_id = $request->client_id;
         $invoice->address_id = $request->address_id;
-        $invoicesCount = Invoice::where([['issue_date', '>=', Carbon::now()->format('Y-m-1')], ['issue_date', '<=', Carbon::now()->format('Y-m-31')]])->count();
         $issueDate = Carbon::createFromFormat('Y-m-d', $request->issue_date);
+        $invoicesCount = Invoice::where([['issue_date', '>=', Carbon::createFromFormat('Y-m', $issueDate->format('Y-m'))->format('Y-m-1')], ['issue_date', '<=', Carbon::createFromFormat('Y-m', $issueDate->format('Y-m'))->format('Y-m-31')]])->count();
         if($request->advance == 1)
             $invoice->invoice_number = 'FVZAL/'.$issueDate->format('Y/m').'/'.(($invoicesCount + 1) < 10 ? '0'.($invoicesCount + 1) : $invoicesCount + 1);
         else
