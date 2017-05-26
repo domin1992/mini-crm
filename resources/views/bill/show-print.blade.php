@@ -9,7 +9,7 @@
       </h2>
     </div>
   </div>
-  <div class="row bill-info">
+  <div class="row invoice-info">
     <div class="col-xs-6">
       <b>
         Rachunek {{ $bill->bill_number }}
@@ -19,7 +19,7 @@
       {{ $bill->issue_date }}, {{ $bill->issue_city }}
     </div>
   </div>
-  <div class="row bill-info">
+  <div class="row invoice-info">
     <div class="col-xs-6">
       <strong>Sprzedawca</strong>
       <address>
