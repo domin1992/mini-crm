@@ -46,7 +46,7 @@
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="/invoice/{{ $invoice->id }}/edit">Edytuj</a></li>
+                    {{-- <li><a href="/invoice/{{ $invoice->id }}/edit">Edytuj</a></li> --}}
                     <li><a href="javascript:void(0)" class="delete-invoice" data-invoice="{{ $invoice->id }}">Usuń</a></li>
                   </ul>
                 </div>
