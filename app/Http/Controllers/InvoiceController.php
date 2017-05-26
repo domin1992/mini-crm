@@ -21,9 +21,9 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-      $invoices = Invoice::all();
+        $invoices = Invoice::all();
 
-      return view('invoice.index', compact('invoices'));
+        return view('invoice.index', compact('invoices'));
     }
 
     /**
@@ -33,7 +33,7 @@ class InvoiceController extends Controller
      */
     public function create(Request $request)
     {
-      return view('invoice.create', ['request' => $request]);
+        return view('invoice.create', ['request' => $request]);
     }
 
     /**
@@ -84,23 +84,23 @@ class InvoiceController extends Controller
      */
     public function show($id)
     {
-      $invoice = Invoice::find($id);
-      $issueDate = Carbon::createFromFormat('Y-m-d', $invoice->issue_date);
-      $invoice->issue_date = $issueDate->format('d-m-Y');
-      $invoice->sumPositionsValueTaxExcl = 0.0;
-      $invoice->sumPositionsTaxValue = 0.0;
-      $invoice->sumPositionsValueTaxIncl = 0.0;
-      foreach($invoice->invoicePositions()->get() as $position){
-        $invoice->sumPositionsValueTaxExcl += $position->price_tax_excl;
-        foreach($position->tax()->get() as $tax){
-          $invoice->sumPositionsTaxValue += $tax->value * ($position->price_tax_excl * $position->quantity);
-          $invoice->sumPositionsValueTaxIncl += $tax->value * ($position->price_tax_excl * $position->quantity) + ($position->price_tax_excl * $position->quantity);
+        $invoice = Invoice::find($id);
+        $issueDate = Carbon::createFromFormat('Y-m-d', $invoice->issue_date);
+        $invoice->issue_date = $issueDate->format('d-m-Y');
+        $invoice->sumPositionsValueTaxExcl = 0.0;
+        $invoice->sumPositionsTaxValue = 0.0;
+        $invoice->sumPositionsValueTaxIncl = 0.0;
+        foreach($invoice->invoicePositions()->get() as $position){
+            $invoice->sumPositionsValueTaxExcl += $position->price_tax_excl;
+            foreach($position->tax()->get() as $tax){
+                $invoice->sumPositionsTaxValue += $tax->value * ($position->price_tax_excl * $position->quantity);
+                $invoice->sumPositionsValueTaxIncl += $tax->value * ($position->price_tax_excl * $position->quantity) + ($position->price_tax_excl * $position->quantity);
+            }
         }
-      }
 
-      $owner = Owner::first();
+        $owner = Owner::first();
 
-      return view('invoice.show', ['invoice' => $invoice, 'owner' => $owner]);
+        return view('invoice.show', ['invoice' => $invoice, 'owner' => $owner]);
     }
 
     /**
@@ -134,30 +134,30 @@ class InvoiceController extends Controller
      */
     public function destroy($id)
     {
-      $invoice = Invoice::find($id);
-      $invoice->delete();
+        $invoice = Invoice::find($id);
+        $invoice->delete();
 
-      return redirect('/invoice');
+        return redirect('/invoice');
     }
 
     public function showPrint($id)
     {
-      $invoice = Invoice::find($id);
-      $issueDate = Carbon::createFromFormat('Y-m-d', $invoice->issue_date);
-      $invoice->issue_date = $issueDate->format('d-m-Y');
-      $invoice->sumPositionsValueTaxExcl = 0.0;
-      $invoice->sumPositionsTaxValue = 0.0;
-      $invoice->sumPositionsValueTaxIncl = 0.0;
-      foreach($invoice->invoicePositions()->get() as $position){
-        $invoice->sumPositionsValueTaxExcl += $position->price_tax_excl;
-        foreach($position->tax()->get() as $tax){
-          $invoice->sumPositionsTaxValue += $tax->value * ($position->price_tax_excl * $position->quantity);
-          $invoice->sumPositionsValueTaxIncl += $tax->value * ($position->price_tax_excl * $position->quantity) + ($position->price_tax_excl * $position->quantity);
+        $invoice = Invoice::find($id);
+        $issueDate = Carbon::createFromFormat('Y-m-d', $invoice->issue_date);
+        $invoice->issue_date = $issueDate->format('d-m-Y');
+        $invoice->sumPositionsValueTaxExcl = 0.0;
+        $invoice->sumPositionsTaxValue = 0.0;
+        $invoice->sumPositionsValueTaxIncl = 0.0;
+        foreach($invoice->invoicePositions()->get() as $position){
+            $invoice->sumPositionsValueTaxExcl += $position->price_tax_excl;
+            foreach($position->tax()->get() as $tax){
+                $invoice->sumPositionsTaxValue += $tax->value * ($position->price_tax_excl * $position->quantity);
+                $invoice->sumPositionsValueTaxIncl += $tax->value * ($position->price_tax_excl * $position->quantity) + ($position->price_tax_excl * $position->quantity);
+            }
         }
-      }
 
-      $owner = Owner::first();
+        $owner = Owner::first();
 
-      return view('invoice.show-print', ['invoice' => $invoice, 'owner' => $owner]);
+        return view('invoice.show-print', ['invoice' => $invoice, 'owner' => $owner]);
     }
 }
