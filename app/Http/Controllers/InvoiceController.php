@@ -58,7 +58,8 @@ class InvoiceController extends Controller
         $invoice->payment_date = $request->payment_date;
         $invoice->advance = $request->advance;
         $invoice->comment = $request->comment;
-        $invoice->payment_method = $request->payment_method;
+        $invoice->payment_method_id = $request->payment_method_id;
+        $invoice->paid = ($request->paid == 'on' ? 1 : 0);
         $invoice->save();
 
         $positionsList = explode(',', $request->input('positions_list'));

@@ -44,9 +44,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="payment_method" class="col-sm-2 control-label">Metoda płatności <span class="required">*</span></label>
+                        <label for="payment_method_id" class="col-sm-2 control-label">Metoda płatności <span class="required">*</span></label>
                         <div class="col-sm-10">
-                            <select class="form-control" id="payment_method" name="payment_method">
+                            <select class="form-control" id="payment_method_id" name="payment_method_id">
                                 @foreach(App\PaymentMethod::all() as $paymentMethod)
                                     <option value="{{ $paymentMethod->id }}">{{ $paymentMethod->name }}</option>
                                 @endforeach
