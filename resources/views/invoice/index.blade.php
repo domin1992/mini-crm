@@ -81,7 +81,9 @@
 <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="/plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script>
-  $("#data-table").DataTable();
+  $("#data-table").DataTable({
+    'order': [[2, 'desc']]
+  });
 
   $('.delete-invoice').click(function(){
     $('#form-invoice-delete').attr('action', '/invoice/' + $(this).data('invoice'));
