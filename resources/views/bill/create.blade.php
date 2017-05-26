@@ -28,12 +28,6 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="bill_number" class="col-sm-2 control-label">Numer rachunku <span class="required">*</span></label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="bill_number" name="bill_number">
-          </div>
-        </div>
-        <div class="form-group">
           <label for="issue_city" class="col-sm-2 control-label">Miejsce wystawienia <span class="required">*</span></label>
           <div class="col-sm-10">
             <input type="text" class="form-control" id="issue_city" name="issue_city">

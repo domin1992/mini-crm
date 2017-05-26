@@ -40,7 +40,18 @@ class BillController extends Controller
      */
     public function store(Request $request)
     {
-        $bill = Bill::create($request->all());
+        $bill = new Bill;
+        $bill->client_id = $request->client_id;
+        $bill->address_id = $request->address_id;
+        $issueDate = Carbon::createFromFormat('Y-m-d', $request->issue_date);
+        $billsCount = Bill::where([['issue_date', '>=', Carbon::createFromFormat('Y-m', $issueDate->format('Y-m'))->format('Y-m-1')], ['issue_date', '<=', Carbon::createFromFormat('Y-m', $issueDate->format('Y-m'))->format('Y-m-31')]])->count();
+        $bill->bill_number = 'R/'.$issueDate->format('Y/m').'/'.(($billsCount + 1) < 10 ? '0'.($billsCount + 1) : $billsCount + 1);
+        $bill->issue_city = $request->issue_city;
+        $bill->issue_date = $request->issue_date;
+        $bill->sell_date = $request->sell_date;
+        $bill->payment_method = $request->payment_method;
+        $bill->save();
+
 
         $positionsList = explode(',', $request->input('positions_list'));
         foreach($positionsList as $position){
