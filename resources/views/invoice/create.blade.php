@@ -47,13 +47,19 @@
                         <label for="payment_method" class="col-sm-2 control-label">Metoda płatności <span class="required">*</span></label>
                         <div class="col-sm-10">
                             <select class="form-control" id="payment_method" name="payment_method">
-                                <option value="0" selected="selected">Przelew</option>
-                                <option value="3">Przelew (zapłacono)</option>
-                                <option value="1">Gotówka</option>
-                                <option value="2">Gotówka (zapłacono)</option>
-                                <option value="4">PayU</option>
-                                <option value="5">PayU (zapłacono)</option>
+                                @foreach(App\PaymentMethod::all() as $paymentMethod)
+                                    <option value="{{ $paymentMethod->id }}">{{ $paymentMethod->name }}</option>
+                                @endforeach
                             </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10 col-sm-offset-2">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="paid" name="paid"> Zapłacono
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">

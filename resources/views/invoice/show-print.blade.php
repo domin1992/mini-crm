@@ -105,24 +105,20 @@
                 <p class="lead-bottom">{{ number_format($invoice->sumPositionsValueTaxIncl, 2, ',', '') }} zł</p>
                 <p class="lead">Termin płatności:</p>
                 <p class="lead-bottom">{{ $invoice->payment_date }}</p>
-                @if($invoice->payment_method == 0)
-                    <p class="lead">Płatność przelewem:</p>
-                    <p class="lead-bottom">
-                        {{ $owner->name }}<br />
-                        {{ $owner->bank_account_number }}<br />
-                        ({{ $owner->bank_name }})<br />
-                        W tytule przelewu prosimy wpisać numer faktury <strong>{{ $invoice->invoice_number }}</strong>
-                    </p>
-                @elseif($invoice->payment_method == 1)
-                    <p class="lead">Płatność gotówką</p>
-                @elseif($invoice->payment_method == 2)
-                    <p class="lead">Płatność gotówką (zapłacono)</p>
-                @elseif($invoice->payment_method == 3)
-                    <p class="lead">Przelew (zapłacono)</p>
-                @elseif($invoice->payment_method == 4)
-                    <p class="lead">PayU</p>
-                @elseif($invoice->payment_method == 5)
-                    <p class="lead">PayU (zapłacono)</p>
+                @if($invoice->paymentMethod()->first()->module_name == 'bank_transfer')
+                    <p class="lead">Płatność przelewem{{ ($invoice->paid ? ' (zapłacono)' : ':') }}</p>
+                    @if(!$invoice->paid)
+                        <p class="lead-bottom">
+                            {{ $owner->name }}<br />
+                            {{ $owner->bank_account_number }}<br />
+                            ({{ $owner->bank_name }})<br />
+                            W tytule przelewu prosimy wpisać numer faktury <strong>{{ $invoice->invoice_number }}</strong>
+                        </p>
+                    @endif
+                @elseif($invoice->paymentMethod()->first()->module_name == 'cash')
+                    <p class="lead">Płatność gotówką{{ ($invoice->paid ? ' (zapłacono)' : '') }}</p>
+                @elseif($invoice->paymentMethod()->first()->module_name == 'payu')
+                    <p class="lead">PayU{{ ($invoice->paid ? ' (zapłacono)' : '') }}</p>
                 @endif
             </div>
             @if($invoice->comment)
