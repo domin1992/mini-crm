@@ -43,11 +43,7 @@
                         {{ $client->company }}<br>
                     @endforeach
                     @foreach($bill->address()->get() as $address)
-                        {{ $address->street }} {{ $address->street_number }}
-                        @if($address->apartment_number)
-                            m. {{ $address->apartment_number }}
-                        @endif
-                        <br>
+                        {{ $address->street }}<br>
                         {{ $address->postcode }} {{ $address->city }}<br>
                     @endforeach
                 </address>
