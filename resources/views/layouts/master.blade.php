@@ -90,6 +90,11 @@
             <i class="fa fa-file-text-o"></i> <span>Faktury</span>
           </a>
         </li>
+        <li @if(strpos(Route::currentRouteName(), 'bill') !== false) class="active" @endif>
+          <a href="/bill">
+            <i class="fa fa-file-text"></i> <span>Rachunki</span>
+          </a>
+        </li>
         <li @if(strpos(Route::currentRouteName(), 'company') !== false) class="active" @endif>
           <a href="/company">
             <i class="fa fa-building-o"></i> <span>Baza firm</span>
