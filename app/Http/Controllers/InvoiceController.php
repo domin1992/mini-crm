@@ -92,7 +92,7 @@ class InvoiceController extends Controller
         $invoice->sumPositionsTaxValue = 0.0;
         $invoice->sumPositionsValueTaxIncl = 0.0;
         foreach($invoice->invoicePositions()->get() as $position){
-            $invoice->sumPositionsValueTaxExcl += $position->price_tax_excl;
+            $invoice->sumPositionsValueTaxExcl += $position->price_tax_excl * $position->quantity;
             foreach($position->tax()->get() as $tax){
                 $invoice->sumPositionsTaxValue += $tax->value * ($position->price_tax_excl * $position->quantity);
                 $invoice->sumPositionsValueTaxIncl += $tax->value * ($position->price_tax_excl * $position->quantity) + ($position->price_tax_excl * $position->quantity);
@@ -150,7 +150,7 @@ class InvoiceController extends Controller
         $invoice->sumPositionsTaxValue = 0.0;
         $invoice->sumPositionsValueTaxIncl = 0.0;
         foreach($invoice->invoicePositions()->get() as $position){
-            $invoice->sumPositionsValueTaxExcl += $position->price_tax_excl;
+            $invoice->sumPositionsValueTaxExcl += $position->price_tax_excl * $position->quantity;
             foreach($position->tax()->get() as $tax){
                 $invoice->sumPositionsTaxValue += $tax->value * ($position->price_tax_excl * $position->quantity);
                 $invoice->sumPositionsValueTaxIncl += $tax->value * ($position->price_tax_excl * $position->quantity) + ($position->price_tax_excl * $position->quantity);

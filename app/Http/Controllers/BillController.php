@@ -85,7 +85,7 @@ class BillController extends Controller
         $bill->sumPositionsTaxValue = 0.0;
         $bill->sumPositionsValueTaxIncl = 0.0;
         foreach($bill->billPositions()->get() as $position){
-            $bill->sumPositionsValueTaxExcl += $position->price_tax_excl;
+            $bill->sumPositionsValueTaxExcl += $position->price_tax_excl * $position->quantity;
             foreach($position->tax()->get() as $tax){
                 $bill->sumPositionsTaxValue += $tax->value * ($position->price_tax_excl * $position->quantity);
                 $bill->sumPositionsValueTaxIncl += $tax->value * ($position->price_tax_excl * $position->quantity) + ($position->price_tax_excl * $position->quantity);
@@ -145,7 +145,7 @@ class BillController extends Controller
         $bill->sumPositionsTaxValue = 0.0;
         $bill->sumPositionsValueTaxIncl = 0.0;
         foreach($bill->billPositions()->get() as $position){
-            $bill->sumPositionsValueTaxExcl += $position->price_tax_excl;
+            $bill->sumPositionsValueTaxExcl += $position->price_tax_excl * $position->quantity;
             foreach($position->tax()->get() as $tax){
                 $bill->sumPositionsTaxValue += $tax->value * ($position->price_tax_excl * $position->quantity);
                 $bill->sumPositionsValueTaxIncl += $tax->value * ($position->price_tax_excl * $position->quantity) + ($position->price_tax_excl * $position->quantity);
