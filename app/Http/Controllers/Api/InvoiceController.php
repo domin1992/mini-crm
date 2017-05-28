@@ -26,6 +26,7 @@ class InvoiceController extends Controller
         {
             "client": {
                 "company": "Firma 1",
+                "vat_number": 7894561230,
                 "email": "firma@firma.pl",
                 "address": {
                     "street": "Warszawska 123",
