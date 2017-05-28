@@ -81,7 +81,7 @@
 						</h3>
 						<p style="font-family: opensans; font-size: 11px;">
 							@foreach($invoice->client()->get() as $client)
-		                        NIP: {{ $client->nip }}<br>
+		                        {!! $client->nip ? 'NIP: '.$client->nip.'<br>' : '' !!}
 		                    @endforeach
 		                    @foreach($invoice->address()->get() as $address)
 		                        {{ $address->street }}<br>
