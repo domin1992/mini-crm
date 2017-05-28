@@ -13,7 +13,7 @@
 					<tr>
 						<td width="500" bgcolor="#FFFFFF" align="center" style="min-width: 500px; width: 500px; background: #FFFFFF; background-color: #FFFFFF;">
 							<a href="http://zencore.pl" target="_blank">
-								<img src="{{ $message->embed(public_path().'/img/logo.png') }}" alt="" width="500">
+								<img src="{{ $message->embed(public_path().'/img/logo.png') }}" alt="" width="400">
 							</a>
 						</td>
 					</tr>
@@ -42,7 +42,7 @@
 				<table width="500" border="0" cellpadding="0" cellspacing="0" marginheight="0" style="font-size: sans-serif;">
 					<tr>
 						<td width="500" bgcolor="#FFFFFF" align="left" style="min-width: 500px; width: 500px; background: #FFFFFF; background-color: #FFFFFF;">
-							<p style="font-size: 14px; color: #231F20;">Dziękujemy za złożenie zamówienia, w załączniku przesyłamy fakturę w formacie PDF</p>
+							<p style="font-size: 14px; color: #231F20;">Dziękujemy za korzystanie z naszych usług, w załączniku przesyłamy fakturę w formacie PDF</p>
 						</td>
 					</tr>
 				</table>
