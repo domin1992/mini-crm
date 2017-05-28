@@ -170,14 +170,14 @@
 								Bitcoin{{ ($invoice->paid ? ' (zapłacono)' : '') }}
 			                @endif
 						</h3>
-						<p style="font-family: opensans; font-size: 11px;">
-							@if($invoice->paymentMethod()->first()->module_name == 'bank_transfer' && !$invoice->paid)
+						@if($invoice->paymentMethod()->first()->module_name == 'bank_transfer' && !$invoice->paid)
+							<p style="font-family: opensans; font-size: 11px;">
 	                            {{ $owner->name }}<br />
 	                            {{ $owner->bank_account_number }}<br />
 	                            ({{ $owner->bank_name }})<br />
 	                            W tytule przelewu prosimy wpisać numer faktury <strong>{{ $invoice->invoice_number }}</strong>
-		                    @endif
-						</p>
+							</p>
+						@endif
 					</td>
 					<td class="right" bgcolor="#FFFFFF" align="left" style="min-width: 50%; width: 50%; background: #FFFFFF; background-color: #FFFFFF;">
 						<h3 style="margin: 0 0 5px 0; font-size: 12px;">{{ number_format($invoice->sumPositionsValueTaxIncl, 2, ',', '') }} zł</h3>
