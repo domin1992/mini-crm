@@ -34,6 +34,7 @@ Route::group(['middleware' => 'auth'], function(){
   Route::get('invoice-print/{id}', 'InvoiceController@showPrint');
   Route::post('invoice-send/{id}', 'InvoiceController@sendInvoice');
   Route::get('bill-print/{id}', 'BillController@showPrint');
+  Route::post('bill-send/{id}', 'BillController@sendBill');
   Route::get('ajax-client/{id}', 'ClientController@ajaxShow');
   Route::get('ajax-tax', 'TaxController@ajaxIndex');
   Route::get('company-export', 'CompanyController@export');

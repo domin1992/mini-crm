@@ -6,7 +6,12 @@ use Illuminate\Http\Request;
 use App\Bill;
 use App\BillPosition;
 use App\Owner;
+use App\Libraries\Generator;
+use App\Mail\BillCreated;
 use Carbon\Carbon;
+use Storage;
+use Response;
+use Mail;
 
 class BillController extends Controller
 {
@@ -64,6 +69,8 @@ class BillController extends Controller
             $billPosition->tax_id = $request->input($position.'_tax_id');
             $billPosition->save();
         }
+
+        Generator::generateBillPdf($bill->id);
 
         return redirect('/bill');
     }
@@ -129,6 +136,7 @@ class BillController extends Controller
     public function destroy($id)
     {
         $bill = Bill::find($id);
+        Storage::disk('docs')->delete(str_replace('/', '_', $bill->bill_number).'.pdf');
         $bill->delete();
 
         return redirect('/bill');
@@ -136,24 +144,22 @@ class BillController extends Controller
 
     public function showPrint($id)
     {
-        $bill = Bill::find($id);
-        $issueDate = Carbon::createFromFormat('Y-m-d', $bill->issue_date);
-        $bill->issue_date = $issueDate->format('d-m-Y');
-        $sellDate = Carbon::createFromFormat('Y-m-d', $bill->sell_date);
-        $bill->sell_date = $sellDate->format('d-m-Y');
-        $bill->sumPositionsValueTaxExcl = 0.0;
-        $bill->sumPositionsTaxValue = 0.0;
-        $bill->sumPositionsValueTaxIncl = 0.0;
-        foreach($bill->billPositions()->get() as $position){
-            $bill->sumPositionsValueTaxExcl += $position->price_tax_excl * $position->quantity;
-            foreach($position->tax()->get() as $tax){
-                $bill->sumPositionsTaxValue += $tax->value * ($position->price_tax_excl * $position->quantity);
-                $bill->sumPositionsValueTaxIncl += $tax->value * ($position->price_tax_excl * $position->quantity) + ($position->price_tax_excl * $position->quantity);
-            }
+        $bill = bill::find($id);
+        if(!Storage::disk('docs')->exists(str_replace('/', '_', $bill->bill_number).'.pdf')){
+            Generator::generatebillPdf($bill->id);
         }
+        return Response::make(Storage::disk('docs')->get(str_replace('/', '_', $bill->bill_number).'.pdf'), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="'.str_replace('/', '_', $bill->bill_number).'.pdf'.'"'
+        ]);
+    }
 
-        $owner = Owner::first();
-
-        return view('bill.show-print', ['bill' => $bill, 'owner' => $owner]);
+    public function sendBill(Request $request, $id){
+        $bill = bill::find($id);
+        if(!Storage::disk('docs')->exists(str_replace('/', '_', $bill->bill_number).'.pdf')){
+            Generator::generatebillPdf($bill->id);
+        }
+        Mail::to($request->email)->send(new billCreated($bill));
+        return redirect('/bill/'.$id);
     }
 }
