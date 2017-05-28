@@ -23,5 +23,13 @@ class PaymentMethodsSeeder extends Seeder
             'name' => 'PayU',
             'module_name' => 'payu'
         ]);
+        DB::table('payment_methods')->insert([
+            'name' => 'PayPal',
+            'module_name' => 'paypal'
+        ]);
+        DB::table('payment_methods')->insert([
+            'name' => 'Bitcoin',
+            'module_name' => 'bitcoin'
+        ]);
     }
 }
