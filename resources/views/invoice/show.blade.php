@@ -3,60 +3,60 @@
 @section('content')
     <section class="content-header">
         <h1>
-            Faktura
+            Faktura{{ ($invoice->advance ? ' zaliczkowa' : '') }}
         </h1>
     </section>
-    <section class="invoice content">
-        <div class="row">
-            <div class="col-xs-2">
-                <h2>
-                    <img src="/img/logo.png" class="img-responsive" alt="">
-                </h2>
+    <section class="content">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">Faktura{{ ($invoice->advance ? ' zaliczkowa' : '') }} {{ $invoice->invoice_number }}</h3>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-sm-3 col-md-2">Miejsce wystawienia</div>
+                    <div class="col-sm-9 col-md-10">{{ $invoice->issue_city }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 col-md-2">Data wystawienia</div>
+                    <div class="col-sm-9 col-md-10">{{ $invoice->issue_date }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 col-md-2">Termin płatności</div>
+                    <div class="col-sm-9 col-md-10">{{ $invoice->payment_date }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 col-md-2">Metoda płatności</div>
+                    <div class="col-sm-9 col-md-10">{{ $invoice->paymentMethod()->first()->name }}{{ ($invoice->paid ? ' (zapłacono)' : '') }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 col-md-2">Do zapłaty</div>
+                    <div class="col-sm-9 col-md-10">{{ number_format($invoice->sumPositionsValueTaxIncl, 2, ',', '') }} zł</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 col-md-2">Uwagi</div>
+                    <div class="col-sm-9 col-md-10">{{ ($invoice->comment ? $invoice->comment : '-') }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 col-md-2">Nabywca</div>
+                    <div class="col-sm-9 col-md-10">
+                        @foreach($invoice->client()->get() as $client)
+                            {{ $client->company }}<br>
+                            NIP: {{ $client->nip }}<br>
+                        @endforeach
+                        @foreach($invoice->address()->get() as $address)
+                            {{ $address->street }}<br>
+                            {{ $address->postcode }} {{ $address->city }}<br>
+                        @endforeach
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="row invoice-info">
-            <div class="col-sm-6 invoice-col">
-                <b>
-                Faktura&nbsp;
-                @if($invoice->advance)
-                    zaliczkowa&nbsp;
-                @endif
-                {{ $invoice->invoice_number }}
-                </b>
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">Pozycje</h3>
             </div>
-            <div class="col-sm-6 invoice-col">
-                {{ $invoice->issue_date }}, {{ $invoice->issue_city }}
-            </div>
-        </div>
-        <div class="row invoice-info">
-            <div class="col-sm-6 invoice-col">
-                <strong>Sprzedawca</strong>
-                <address>
-                    {{ $owner->name }}<br>
-                    NIP: {{ $owner->vat_number }}<br>
-                    ul. {{ $owner->street }}<br>
-                    {{ $owner->postcode }} {{ $owner->city }}<br>
-                    Tel: {{ $owner->phone }}<br>
-                    Email: {{ $owner->email }}
-                </address>
-            </div>
-            <div class="col-sm-6 invoice-col">
-                <strong>Nabywca</strong>
-                <address>
-                    @foreach($invoice->client()->get() as $client)
-                        {{ $client->company }}<br>
-                        NIP: {{ $client->nip }}<br>
-                    @endforeach
-                    @foreach($invoice->address()->get() as $address)
-                        {{ $address->street }}<br>
-                        {{ $address->postcode }} {{ $address->city }}<br>
-                    @endforeach
-                </address>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12 table-responsive">
-                <table class="table table-striped">
+            <div class="box-body no-padding">
+                <table class="table">
                     <thead>
                         <tr>
                             <th>L.p.</th>
@@ -100,44 +100,26 @@
                 </table>
             </div>
         </div>
-        <div class="row">
-            <div class="col-xs-6">
-                <p class="lead">Do zapłaty:</p>
-                <p class="lead-bottom">{{ number_format($invoice->sumPositionsValueTaxIncl, 2, ',', '') }} zł</p>
-                <p class="lead">Termin płatności:</p>
-                <p class="lead-bottom">{{ $invoice->payment_date }}</p>
-                @if($invoice->paymentMethod()->first()->module_name == 'bank_transfer')
-                    <p class="lead">Płatność przelewem{{ ($invoice->paid ? ' (zapłacono)' : ':') }}</p>
-                    @if(!$invoice->paid)
-                        <p class="lead-bottom">
-                            {{ $owner->name }}<br />
-                            {{ $owner->bank_account_number }}<br />
-                            ({{ $owner->bank_name }})<br />
-                            W tytule przelewu prosimy wpisać numer faktury <strong>{{ $invoice->invoice_number }}</strong>
-                        </p>
-                    @endif
-                @elseif($invoice->paymentMethod()->first()->module_name == 'cash')
-                    <p class="lead">Płatność gotówką{{ ($invoice->paid ? ' (zapłacono)' : '') }}</p>
-                @elseif($invoice->paymentMethod()->first()->module_name == 'payu')
-                    <p class="lead">PayU{{ ($invoice->paid ? ' (zapłacono)' : '') }}</p>
-                @endif
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">Wyślij na adres e-mail</h3>
             </div>
-            @if($invoice->comment)
-                <div class="col-xs-6">
-                    <p class="lead">Uwagi</p>
-                    <p>{{ $invoice->comment }}</p>
-                </div>
-            @endif
-        </div>
-        <div class="row no-print">
-            <div class="col-xs-12">
-                <a href="/invoice-print/{{ $invoice->id }}" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
-                {{-- <button class="btn btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-download"></i> Generate PDF</button> --}}
+            <div class="box-body">
+                <form class="form-horizontal" action="/invoice-send/{{ $invoice->id }}" method="post">
+                    <div class="form-group">
+                        <label for="email" class="col-sm-2 control-label">Adres e-mail</label>
+                        <div class="col-sm-8">
+                            <input type="email" class="form-control" id="email" name="email">
+                        </div>
+                        {{ csrf_field() }}
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-info">Wyślij</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </section>
-    <div class="clearfix"></div>
-    @include('employee.partials.modal-employee-delete')
 @endsection
 
 @section('script')

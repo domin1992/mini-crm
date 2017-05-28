@@ -30,8 +30,9 @@ class InvoiceCreated extends Mailable
      */
     public function build()
     {
-        return $this->title('Faktura '.$this->invoice->invoice_number)
+        return $this->subject('Faktura '.$this->invoice->invoice_number)
                     ->view('email.invoice-created')
-                    ->text('email.invoice-created-plain');
+                    ->text('email.invoice-created-plain')
+                    ->attach(storage_path('app/docs/'.str_replace('/', '_', $this->invoice->invoice_number.'.pdf')));
     }
 }

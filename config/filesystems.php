@@ -62,6 +62,11 @@ return [
             'bucket' => 'your-bucket',
         ],
 
+        'docs' => [
+            'driver' => 'local',
+            'root' => storage_path('app/docs'),
+        ]
+
     ],
 
 ];
