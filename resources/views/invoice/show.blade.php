@@ -40,8 +40,8 @@
                     <div class="col-sm-3 col-md-2">Nabywca</div>
                     <div class="col-sm-9 col-md-10">
                         @foreach($invoice->client()->get() as $client)
-                            {{ $client->company }}<br>
-                            NIP: {{ $client->nip }}<br>
+                            {{ $client->company }}
+                            {!! $client->nip ? '<br />NIP: '.$client->nip : '' !!}<br>
                         @endforeach
                         @foreach($invoice->address()->get() as $address)
                             {{ $address->street }}<br>
