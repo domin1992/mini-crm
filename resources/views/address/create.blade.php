@@ -21,18 +21,6 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="street_number" class="col-sm-2 control-label">Numer ulicy <span class="required">*</span></label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="street_number" name="street_number">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="apartment_number" class="col-sm-2 control-label">Numer mieszkania</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="apartment_number" name="apartment_number">
-          </div>
-        </div>
-        <div class="form-group">
           <label for="city" class="col-sm-2 control-label">Miasto <span class="required">*</span></label>
           <div class="col-sm-10">
             <input type="text" class="form-control" id="city" name="city">

@@ -1,0 +1,89 @@
+.invoice td, .invoice th{
+    font-family: opensans, sans-serif;
+    font-weight: normal;
+    font-size: 10px;
+    color: #333;
+    -webkit-print-color-adjust: exact;
+}
+
+.font-basic{
+    font-family: opensans, sans-serif;
+    font-weight: normal;
+    font-size: 10px;
+    color: #333;
+}
+
+.basic-info tr td{
+    font-size: 12px;
+    padding: 0 0 1px 3px;
+    text-align: right;
+    font-weight: 600;
+}
+
+.basic-info tr td.heading{
+    padding: 0 3px 1px 0;
+    text-align: left;
+    font-weight: bold;
+    color: #252d5f;
+    text-transform: uppercase;
+}
+
+.basic-info tr td.title{
+    font-size: 16px;
+    text-transform: uppercase;
+    font-family: raleway, sans-serif;
+    font-weight: 700;
+    padding: 0 0 10px 0;
+}
+
+.companies tr td{
+    font-size: 12px;
+    vertical-align: top;
+}
+
+.companies tr td.left{
+    padding: 0 10px 10px 0;
+}
+
+.companies tr td.right{
+    padding: 0 0 10px 10px;
+}
+
+.companies.companies-full tr td{
+    padding: 0 0 10px 0;
+}
+
+.companies tr td.company-heading td{
+    font-family: raleway, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 1px solid #252d5f;
+    color: #252d5f;
+    margin: 0;
+}
+
+.details tr th, .details tr td{
+    font-size: 12px;
+    padding: 5px 5px 5px 8px;
+}
+
+.details thead tr th{
+    background-color: #252d5f;
+    color: #FFF;
+    text-transform: uppercase;
+    font-family: opensans, sans-serif;
+    font-weight: 700;
+}
+
+.details tbody tr td{
+    border-bottom: 1px solid #252d5f;
+}
+
+.details tbody tr.last-row td{
+    border-bottom: 2px solid #252d5f;
+}
+
+.details tfoot tr td{
+    font-weight: bold;
+}

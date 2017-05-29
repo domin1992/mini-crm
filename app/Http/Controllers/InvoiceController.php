@@ -9,8 +9,12 @@ use App\Http\Requests;
 use App\Invoice;
 use App\InvoicePosition;
 use App\Owner;
-
+use App\Libraries\Generator;
+use App\Mail\InvoiceCreated;
 use Carbon\Carbon;
+use Storage;
+use Response;
+use Mail;
 
 class InvoiceController extends Controller
 {
@@ -21,9 +25,9 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-      $invoices = Invoice::all();
+        $invoices = Invoice::all();
 
-      return view('invoice.index', compact('invoices'));
+        return view('invoice.index', compact('invoices'));
     }
 
     /**
@@ -33,7 +37,7 @@ class InvoiceController extends Controller
      */
     public function create(Request $request)
     {
-      return view('invoice.create', ['request' => $request]);
+        return view('invoice.create', ['request' => $request]);
     }
 
     /**
@@ -44,21 +48,39 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-      $invoice = Invoice::create($request->all());
+        $invoice = new Invoice;
+        $invoice->client_id = $request->client_id;
+        $invoice->address_id = $request->address_id;
+        $issueDate = Carbon::createFromFormat('Y-m-d', $request->issue_date);
+        $invoicesCount = Invoice::where([['issue_date', '>=', Carbon::createFromFormat('Y-m', $issueDate->format('Y-m'))->format('Y-m-1')], ['issue_date', '<=', Carbon::createFromFormat('Y-m', $issueDate->format('Y-m'))->format('Y-m-31')], ['advance', '=', $request->advance]])->count();
+        if($request->advance == 1)
+            $invoice->invoice_number = 'FVZAL/'.$issueDate->format('Y/m').'/'.(($invoicesCount + 1) < 10 ? '0'.($invoicesCount + 1) : $invoicesCount + 1);
+        else
+            $invoice->invoice_number = 'FV/'.$issueDate->format('Y/m').'/'.(($invoicesCount + 1) < 10 ? '0'.($invoicesCount + 1) : $invoicesCount + 1);
+        $invoice->issue_city = $request->issue_city;
+        $invoice->issue_date = $request->issue_date;
+        $invoice->payment_date = $request->payment_date;
+        $invoice->advance = $request->advance;
+        $invoice->comment = $request->comment;
+        $invoice->payment_method_id = $request->payment_method_id;
+        $invoice->paid = ($request->paid == 'on' ? 1 : 0);
+        $invoice->save();
 
-      $positionsList = explode(',', $request->input('positions_list'));
-      foreach($positionsList as $position){
-        $invoicePosition = new InvoicePosition;
-        $invoicePosition->invoice_id = $invoice->id;
-        $invoicePosition->name = $request->input($position.'_name');
-        $invoicePosition->quantity = $request->input($position.'_quantity');
-        $invoicePosition->measure_unit = $request->input($position.'_measure_unit');
-        $invoicePosition->price_tax_excl = str_replace(',', '.', $request->input($position.'_price_tax_excl'));
-        $invoicePosition->tax_id = $request->input($position.'_tax_id');
-        $invoicePosition->save();
-      }
+        $positionsList = explode(',', $request->input('positions_list'));
+        foreach($positionsList as $position){
+            $invoicePosition = new InvoicePosition;
+            $invoicePosition->invoice_id = $invoice->id;
+            $invoicePosition->name = $request->input($position.'_name');
+            $invoicePosition->quantity = $request->input($position.'_quantity');
+            $invoicePosition->measure_unit = $request->input($position.'_measure_unit');
+            $invoicePosition->price_tax_excl = str_replace(',', '.', $request->input($position.'_price_tax_excl'));
+            $invoicePosition->tax_id = $request->input($position.'_tax_id');
+            $invoicePosition->save();
+        }
 
-      return redirect('/invoice');
+        Generator::generateInvoicePdf($invoice->id);
+
+        return redirect('/invoice');
     }
 
     /**
@@ -69,23 +91,25 @@ class InvoiceController extends Controller
      */
     public function show($id)
     {
-      $invoice = Invoice::find($id);
-      $issueDate = Carbon::createFromFormat('Y-m-d', $invoice->issue_date);
-      $invoice->issue_date = $issueDate->format('d-m-Y');
-      $invoice->sumPositionsValueTaxExcl = 0.0;
-      $invoice->sumPositionsTaxValue = 0.0;
-      $invoice->sumPositionsValueTaxIncl = 0.0;
-      foreach($invoice->invoicePositions()->get() as $position){
-        $invoice->sumPositionsValueTaxExcl += $position->price_tax_excl;
-        foreach($position->tax()->get() as $tax){
-          $invoice->sumPositionsTaxValue += $tax->value * ($position->price_tax_excl * $position->quantity);
-          $invoice->sumPositionsValueTaxIncl += $tax->value * ($position->price_tax_excl * $position->quantity) + ($position->price_tax_excl * $position->quantity);
+        $invoice = Invoice::find($id);
+        $issueDate = Carbon::createFromFormat('Y-m-d', $invoice->issue_date);
+        $invoice->issue_date = $issueDate->format('d-m-Y');
+        $paymentDate = Carbon::createFromFormat('Y-m-d', $invoice->payment_date);
+        $invoice->payment_date = $paymentDate->format('d-m-Y');
+        $invoice->sumPositionsValueTaxExcl = 0.0;
+        $invoice->sumPositionsTaxValue = 0.0;
+        $invoice->sumPositionsValueTaxIncl = 0.0;
+        foreach($invoice->invoicePositions()->get() as $position){
+            $invoice->sumPositionsValueTaxExcl += $position->price_tax_excl * $position->quantity;
+            foreach($position->tax()->get() as $tax){
+                $invoice->sumPositionsTaxValue += $tax->value * ($position->price_tax_excl * $position->quantity);
+                $invoice->sumPositionsValueTaxIncl += $tax->value * ($position->price_tax_excl * $position->quantity) + ($position->price_tax_excl * $position->quantity);
+            }
         }
-      }
 
-      $owner = Owner::first();
+        $owner = Owner::first();
 
-      return view('invoice.show', ['invoice' => $invoice, 'owner' => $owner]);
+        return view('invoice.show', ['invoice' => $invoice, 'owner' => $owner]);
     }
 
     /**
@@ -119,30 +143,31 @@ class InvoiceController extends Controller
      */
     public function destroy($id)
     {
-      $invoice = Invoice::find($id);
-      $invoice->delete();
+        $invoice = Invoice::find($id);
+        Storage::disk('docs')->delete(str_replace('/', '_', $invoice->invoice_number).'.pdf');
+        $invoice->delete();
 
-      return redirect('/invoice');
+        return redirect('/invoice');
     }
 
     public function showPrint($id)
     {
-      $invoice = Invoice::find($id);
-      $issueDate = Carbon::createFromFormat('Y-m-d', $invoice->issue_date);
-      $invoice->issue_date = $issueDate->format('d-m-Y');
-      $invoice->sumPositionsValueTaxExcl = 0.0;
-      $invoice->sumPositionsTaxValue = 0.0;
-      $invoice->sumPositionsValueTaxIncl = 0.0;
-      foreach($invoice->invoicePositions()->get() as $position){
-        $invoice->sumPositionsValueTaxExcl += $position->price_tax_excl;
-        foreach($position->tax()->get() as $tax){
-          $invoice->sumPositionsTaxValue += $tax->value * ($position->price_tax_excl * $position->quantity);
-          $invoice->sumPositionsValueTaxIncl += $tax->value * ($position->price_tax_excl * $position->quantity) + ($position->price_tax_excl * $position->quantity);
+        $invoice = Invoice::find($id);
+        if(!Storage::disk('docs')->exists(str_replace('/', '_', $invoice->invoice_number).'.pdf')){
+            Generator::generateInvoicePdf($invoice->id);
         }
-      }
+        return Response::make(Storage::disk('docs')->get(str_replace('/', '_', $invoice->invoice_number).'.pdf'), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="'.str_replace('/', '_', $invoice->invoice_number).'.pdf'.'"'
+        ]);
+    }
 
-      $owner = Owner::first();
-
-      return view('invoice.show-print', ['invoice' => $invoice, 'owner' => $owner]);
+    public function sendInvoice(Request $request, $id){
+        $invoice = Invoice::find($id);
+        if(!Storage::disk('docs')->exists(str_replace('/', '_', $invoice->invoice_number).'.pdf')){
+            Generator::generateInvoicePdf($invoice->id);
+        }
+        Mail::to($request->email)->send(new InvoiceCreated($invoice));
+        return redirect('/invoice/'.$id);
     }
 }

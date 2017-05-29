@@ -60,10 +60,7 @@
                 <div class="row">
                   <div class="col-md-2"><strong>Ulica</strong></div>
                   <div class="col-md-10">
-                    {{ $address->street }}&nbsp;{{ $address->street_number }}
-                    @if($address->apartment_number != '')
-                      m. {{ $address->apartment_number }}
-                    @endif
+                    {{ $address->street }}
                   </div>
                 </div>
                 <div class="row">

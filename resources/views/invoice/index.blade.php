@@ -46,7 +46,7 @@
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="/invoice/{{ $invoice->id }}/edit">Edytuj</a></li>
+                    {{-- <li><a href="/invoice/{{ $invoice->id }}/edit">Edytuj</a></li> --}}
                     <li><a href="javascript:void(0)" class="delete-invoice" data-invoice="{{ $invoice->id }}">Usuń</a></li>
                   </ul>
                 </div>
@@ -81,7 +81,9 @@
 <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="/plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script>
-  $("#data-table").DataTable();
+  $("#data-table").DataTable({
+    'order': [[2, 'desc']]
+  });
 
   $('.delete-invoice').click(function(){
     $('#form-invoice-delete').attr('action', '/invoice/' + $(this).data('invoice'));
