@@ -50,6 +50,9 @@
                     </div>
                 </div>
             </div>
+            <div class="box-footer">
+                <a href="/invoice-print/{{ $invoice->id }}" class="btn btn-info pull-right">Drukuj</a>
+            </div>
         </div>
         <div class="box">
             <div class="box-header">

@@ -45,6 +45,9 @@
                     </div>
                 </div>
             </div>
+            <div class="box-footer">
+                <a href="/bill-print/{{ $bill->id }}" class="btn btn-info pull-right">Drukuj</a>
+            </div>
         </div>
         <div class="box">
             <div class="box-header">
