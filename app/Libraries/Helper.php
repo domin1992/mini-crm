@@ -39,7 +39,7 @@ class Helper{
 
     public static function getCompanies(){
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'http://firmy.zencore.pl/api/get-companies');
+        curl_setopt($ch, CURLOPT_URL, 'http://firmy.zencore.ml/api/get-companies');
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, "auth_key=CXuemutDtr4o4spyvjmLJPbphZyzdbCf&start_date=".Carbon::now()->subDay()->format('Y-m-d'));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -57,7 +57,7 @@ class Helper{
     }
 
     public static function sendInvitations(){
-        $invitations = Invitation::where('sent', 0)->get();
+        $invitations = Invitation::where('sent', 0)->limit(10)->get();
         foreach($invitations as $invitaton){
             Mail::to($invitaton->email)->send(new Invite($invitaton));
             $invitaton->sent = 1;
