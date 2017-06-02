@@ -25,8 +25,6 @@ class AddPaymentMethodToInvoice extends Migration
      */
     public function down()
     {
-        Schema::table('invoices', function($table){
-            $table->dropColumn('payment_method');
-        });
+        //
     }
 }
