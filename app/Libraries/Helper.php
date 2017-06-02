@@ -57,7 +57,7 @@ class Helper{
     }
 
     public static function sendInvitations(){
-        $invitations = Invitation::where('sent', 0)->get();
+        $invitations = Invitation::where('sent', 0)->limit(10)->get();
         foreach($invitations as $invitaton){
             Mail::to($invitaton->email)->send(new Invite($invitaton));
             $invitaton->sent = 1;
