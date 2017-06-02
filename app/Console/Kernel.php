@@ -13,7 +13,9 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        // Commands\Inspire::class,
+        Commands\Inspire::class,
+        Commands\ImportCompanies::class,
+        Commands\SendInvitations::class,
     ];
 
     /**
@@ -26,5 +28,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        $schedule->command('send-invitations')->everyTenMinutes();
+        $schedule->command('import-companies')->dailyAt('10:00');
     }
 }

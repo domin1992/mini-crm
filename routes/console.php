@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Foundation\Inspiring;
+use App\Libraries\Helper;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,11 @@ use Illuminate\Foundation\Inspiring;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
+
+Artisan::command('send-invitations', function () {
+    $this->comment(Inspiring::quote());
+})->describe('');
+
+Artisan::command('import-companies', function () {
+    Helper::getCompanies();
+})->describe('');
