@@ -22,7 +22,7 @@ class Invite extends Mailable
     public function __construct($invitation)
     {
         $this->invitation = $invitation;
-        $this->gender = (substr($this->invitation->firstname, -1) == 'a' ? 'female' : 'male');
+        $this->gender = (substr($this->invitation->firstname, -1) == 'a' || substr($this->invitation->firstname, -1) == 'A' ? 'female' : 'male');
     }
 
     /**
