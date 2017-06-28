@@ -2,7 +2,7 @@ Dzień dobry,
 
 Gratuluję założenia działalności gospodarczej!
 
-Czy posiada {{ ($gender == 'female' ? 'Pani' : 'Pan') }} już stronę internetową?
+Czy posiada {{ ($gender == 'female' ? 'Pani' : 'Pan') }} stronę internetową?
 
 --
 Dominik Nowak

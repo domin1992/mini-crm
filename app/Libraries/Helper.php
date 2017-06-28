@@ -41,7 +41,7 @@ class Helper{
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'http://firmy.zencore.ml/api/get-companies');
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, "auth_key=CXuemutDtr4o4spyvjmLJPbphZyzdbCf&start_date=".Carbon::now()->subDay()->format('Y-m-d'));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "auth_key=CXuemutDtr4o4spyvjmLJPbphZyzdbCf&start_date=".Carbon::now()->subWeek()->format('Y-m-d'));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($ch);
         $companies = json_decode($output);
