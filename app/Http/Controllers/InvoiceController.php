@@ -144,6 +144,11 @@ class InvoiceController extends Controller
     public function destroy($id)
     {
         $invoice = Invoice::find($id);
+        if($invoice->invoicePositions()->count() > 0){
+            foreach($invoice->invoicePositions()->get() as $invoicePosition){
+                $invoicePosition->delete();
+            }
+        }
         Storage::disk('docs')->delete(str_replace('/', '_', $invoice->invoice_number).'.pdf');
         $invoice->delete();
 

@@ -136,6 +136,11 @@ class BillController extends Controller
     public function destroy($id)
     {
         $bill = Bill::find($id);
+        if($bill->billPositions()->count() > 0){
+            foreach($bill->billPositions()->get() as $billPosition){
+                $billPosition->delete();
+            }
+        }
         Storage::disk('docs')->delete(str_replace('/', '_', $bill->bill_number).'.pdf');
         $bill->delete();
 
