@@ -41,17 +41,19 @@ class Helper{
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'https://firmy.zencore.pl/api/get-companies');
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, "auth_key=CXuemutDtr4o4spyvjmLJPbphZyzdbCf&start_date=".Carbon::now()->subWeek()->format('Y-m-d'));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "auth_key=CXuemutDtr4o4spyvjmLJPbphZyzdbCf&start_date=".Carbon::now()->subMonths(3)->format('Y-m-d'));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($ch);
         $companies = json_decode($output);
         foreach($companies as $company){
-            $invitation = new Invitation;
-            $invitation->firstname = $company->firstname;
-            $invitation->lastname = $company->lastname;
-            $invitation->company_name = $company->company_name;
-            $invitation->email = $company->email;
-            $invitation->save();
+            if(Invitation::where('email', $company->email)->first() == null){
+                $invitation = new Invitation;
+                $invitation->firstname = $company->firstname;
+                $invitation->lastname = $company->lastname;
+                $invitation->company_name = $company->company_name;
+                $invitation->email = $company->email;
+                $invitation->save();
+            }
         }
         curl_close($ch);
     }

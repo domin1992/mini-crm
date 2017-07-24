@@ -32,7 +32,8 @@ class Invite extends Mailable
      */
     public function build()
     {
-        return $this->subject('Gratuluję otwarcia firmy!')
+        return $this->from('kontakt@salespoint.pl')
+                    ->subject('Skuteczna sprzedaż')
                     ->text('email.invite-plain');
     }
 }
