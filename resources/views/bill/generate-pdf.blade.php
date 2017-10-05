@@ -109,11 +109,11 @@
 					@foreach($bill->billPositions()->get() as $key => $position)
 						<tr{{ (($key + 1) == count($position) ? ' class="last-row"' : '') }}>
 							<td align="left" style="font-family: opensans; font-size: 11px;">{{ $position->name }}</td>
-							<td align="right" style="font-family: opensans; font-size: 11px;">{{ number_format($position->price_tax_excl, 2, ',', '') }}&nbsp;zł</td>
+							<td align="right" style="font-family: opensans; font-size: 11px;">{{ number_format($position->price_tax_excl, 2, ',', ' ') }}&nbsp;zł</td>
 							@foreach($position->tax()->get() as $tax)
 								<td align="right" style="font-family: opensans; font-size: 11px;">{{ $tax->display }}</td>
-								<td align="right" style="font-family: opensans; font-size: 11px;">{{ number_format($tax->value * ($position->price_tax_excl * $position->quantity), 2, ',', '') }}&nbsp;zł</td>
-								<td align="right" style="font-family: opensans; font-size: 11px;">{{ number_format($tax->value * ($position->price_tax_excl * $position->quantity) + ($position->price_tax_excl * $position->quantity), 2, ',', '') }}&nbsp;zł</td>
+								<td align="right" style="font-family: opensans; font-size: 11px;">{{ number_format($tax->value * ($position->price_tax_excl * $position->quantity), 2, ',', ' ') }}&nbsp;zł</td>
+								<td align="right" style="font-family: opensans; font-size: 11px;">{{ number_format($tax->value * ($position->price_tax_excl * $position->quantity) + ($position->price_tax_excl * $position->quantity), 2, ',', ' ') }}&nbsp;zł</td>
 							@endforeach
 						</tr>
 					@endforeach
@@ -121,10 +121,10 @@
 				<tfoot>
 					<tr>
 						<td align="left" style="font-family: opensans; font-size: 11px;">Razem</td>
-						<td align="right" style="font-family: opensans; font-size: 11px;">{{ number_format($bill->sumPositionsValueTaxExcl, 2, ',', '') }}&nbsp;zł</td>
+						<td align="right" style="font-family: opensans; font-size: 11px;">{{ number_format($bill->sumPositionsValueTaxExcl, 2, ',', ' ') }}&nbsp;zł</td>
 						<td align="right" style="font-family: opensans; font-size: 11px;">-</td>
-						<td align="right" style="font-family: opensans; font-size: 11px;">{{ number_format($bill->sumPositionsTaxValue, 2, ',', '') }}&nbsp;zł</td>
-						<td align="right" style="font-family: opensans; font-size: 11px;">{{ number_format($bill->sumPositionsValueTaxIncl, 2, ',', '') }}&nbsp;zł</td>
+						<td align="right" style="font-family: opensans; font-size: 11px;">{{ number_format($bill->sumPositionsTaxValue, 2, ',', ' ') }}&nbsp;zł</td>
+						<td align="right" style="font-family: opensans; font-size: 11px;">{{ number_format($bill->sumPositionsValueTaxIncl, 2, ',', ' ') }}&nbsp;zł</td>
 					</tr>
 				</tfoot>
 			</table>
@@ -177,7 +177,7 @@
 						@endif
 					</td>
 					<td class="right" bgcolor="#FFFFFF" align="left" style="min-width: 50%; width: 50%; background: #FFFFFF; background-color: #FFFFFF;">
-						<h3 style="margin: 0 0 5px 0; font-size: 12px;">{{ number_format($bill->sumPositionsValueTaxIncl, 2, ',', '') }} zł</h3>
+						<h3 style="margin: 0 0 5px 0; font-size: 12px;">{{ number_format($bill->sumPositionsValueTaxIncl, 2, ',', ' ') }} zł</h3>
 					</td>
 				</tr>
 			</table>

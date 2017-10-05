@@ -30,7 +30,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-3 col-md-2">Do zapłaty</div>
-                    <div class="col-sm-9 col-md-10">{{ number_format($invoice->sumPositionsValueTaxIncl, 2, ',', '') }} zł</div>
+                    <div class="col-sm-9 col-md-10">{{ number_format($invoice->sumPositionsValueTaxIncl, 2, ',', ' ') }} zł</div>
                 </div>
                 <div class="row">
                     <div class="col-sm-3 col-md-2">Uwagi</div>
@@ -80,12 +80,12 @@
                                 <td>{{ $position->name }}</td>
                                 <td>{{ $position->quantity }}</td>
                                 <td>{{ $position->measure_unit }}</td>
-                                <td>{{ number_format($position->price_tax_excl, 2, ',', '') }} zł</td>
-                                <td>{{ number_format($position->price_tax_excl * $position->quantity, 2, ',', '') }} zł</td>
+                                <td>{{ number_format($position->price_tax_excl, 2, ',', ' ') }} zł</td>
+                                <td>{{ number_format($position->price_tax_excl * $position->quantity, 2, ',', ' ') }} zł</td>
                                 @foreach($position->tax()->get() as $tax)
                                     <td>{{ $tax->display }}</td>
-                                    <td>{{ number_format($tax->value * ($position->price_tax_excl * $position->quantity), 2, ',', '') }} zł</td>
-                                    <td>{{ number_format($tax->value * ($position->price_tax_excl * $position->quantity) + ($position->price_tax_excl * $position->quantity), 2, ',', '') }} zł</td>
+                                    <td>{{ number_format($tax->value * ($position->price_tax_excl * $position->quantity), 2, ',', ' ') }} zł</td>
+                                    <td>{{ number_format($tax->value * ($position->price_tax_excl * $position->quantity) + ($position->price_tax_excl * $position->quantity), 2, ',', ' ') }} zł</td>
                                 @endforeach
                             </tr>
                         @endforeach
@@ -94,10 +94,10 @@
                         <tr>
                             <td colspan="4"></td>
                             <td><strong>Razem</strong></td>
-                            <td>{{ number_format($invoice->sumPositionsValueTaxExcl, 2, ',', '') }} zł</td>
+                            <td>{{ number_format($invoice->sumPositionsValueTaxExcl, 2, ',', ' ') }} zł</td>
                             <td>-</td>
-                            <td>{{ number_format($invoice->sumPositionsTaxValue, 2, ',', '') }} zł</td>
-                            <td>{{ number_format($invoice->sumPositionsValueTaxIncl, 2, ',', '') }} zł</td>
+                            <td>{{ number_format($invoice->sumPositionsTaxValue, 2, ',', ' ') }} zł</td>
+                            <td>{{ number_format($invoice->sumPositionsValueTaxIncl, 2, ',', ' ') }} zł</td>
                         </tr>
                     </tfoot>
                 </table>
