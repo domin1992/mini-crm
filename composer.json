@@ -9,7 +9,9 @@
         "laravel/framework": "5.4.*",
         "laravel/cashier": "~7.0",
         "vinkla/pusher": "^2.4",
-        "mpdf/mpdf": "^7.1"
+        "mpdf/mpdf": "^7.1",
+        "laravel/tinker": "^1.0",
+        "guzzlehttp/guzzle": "^6.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
