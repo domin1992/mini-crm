@@ -37,6 +37,33 @@ class Helper{
         $mpdf->default_available_fonts = $mpdf->available_unifonts;
     }
 
+    public static function initMpdf($format = 'A4'){
+        $defaultConfig = (new \Mpdf\Config\ConfigVariables())->getDefaults();
+        $fontDirs = $defaultConfig['fontDir'];
+
+        $defaultFontConfig = (new \Mpdf\Config\FontVariables())->getDefaults();
+        $fontData = $defaultFontConfig['fontdata'];
+
+        $mpdf = new \Mpdf\Mpdf([
+            'mode' => 'utf-8',
+            'format' => $format,
+            'fontDir' => array_merge($fontDirs, [public_path('fonts/ttfonts')]),
+            'fontdata' => $fontData + [
+                'raleway' => [
+                    'R' => 'Raleway-Bold.ttf',
+                    'B' => 'Raleway-Regular.ttf',
+                ],
+                'opensans' => [
+                    'R' => 'OpenSans-Regular.ttf',
+                    'SB' => 'OpenSans-Semibold.ttf',
+                    'B' => 'OpenSans-Bold.ttf',
+                ],
+            ],
+        ]);
+
+        return $mpdf;
+    }
+
     public static function getCompanies(){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'https://firmy.zencore.pl/api/get-companies');

@@ -7,7 +7,6 @@ use App\Bill;
 use App\Owner;
 use App\Libraries\Helper;
 use Carbon\Carbon;
-use mPDF;
 
 class Generator{
     public static function generateInvoicePdf($invoiceId){
@@ -29,11 +28,7 @@ class Generator{
 
         $owner = Owner::first();
 
-        if(!defined('_MPDF_TTFONTPATH')){
-            define('_MPDF_TTFONTPATH', public_path().'/fonts/ttfonts/');
-        }
-        $mpdf = new mPDF;
-        Helper::addCustomFontsToMpdf($mpdf);
+        $mpdf = Helper::initMpdf();
         $mpdf->WriteHTML(file_get_contents(public_path().'/css/invoice.css'), 1);
         $mpdf->WriteHTML(view('invoice.generate-pdf', ['invoice' => $invoice, 'owner' => $owner])->render());
         $mpdf->Output(storage_path('app/docs/').str_replace('/', '_', $invoice->invoice_number).'.pdf', 'F');
@@ -58,11 +53,7 @@ class Generator{
 
         $owner = Owner::first();
 
-        if(!defined('_MPDF_TTFONTPATH')){
-            define('_MPDF_TTFONTPATH', public_path().'/fonts/ttfonts/');
-        }
-        $mpdf = new mPDF;
-        Helper::addCustomFontsToMpdf($mpdf);
+        $mpdf = Helper::initMpdf();
         $mpdf->WriteHTML(file_get_contents(public_path().'/css/invoice.css'), 1);
         $mpdf->WriteHTML(view('bill.generate-pdf', ['bill' => $bill, 'owner' => $owner])->render());
         $mpdf->Output(storage_path('app/docs/').str_replace('/', '_', $bill->bill_number).'.pdf', 'F');

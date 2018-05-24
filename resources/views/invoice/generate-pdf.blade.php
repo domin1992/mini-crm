@@ -110,7 +110,7 @@
 				</thead>
 				<tbody>
 					@foreach($invoice->invoicePositions()->get() as $key => $position)
-						<tr{{ (($key + 1) == count($position) ? ' class="last-row"' : '') }}>
+						<tr{{ (($key + 1) == count($invoice->invoicePositions()->get()) ? ' class="last-row"' : '') }}>
 							<td align="left" style="font-family: opensans; font-size: 11px;">{{ $position->name }}</td>
 							<td align="right" style="font-family: opensans; font-size: 11px;">{{ number_format($position->price_tax_excl, 2, ',', ' ') }}&nbsp;zł</td>
 							@foreach($position->tax()->get() as $tax)

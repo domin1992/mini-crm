@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call(OwnerTableSeeder::class);
         $this->call(UserPermissionsTableSeeder::class);
         $this->call(RecurringPaymentsTableSeeder::class);
+        $this->call(PaymentMethodsSeeder::class);
     }
 }
