@@ -115,6 +115,18 @@
             <i class="fa fa-tachometer"></i> <span>Kilometrówka</span>
           </a>
         </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-copy"></i> <span>Umowy</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/contract-type"><i class="fa fa-circle-o"></i> Typy umów</a></li>
+            <li><a href="/contract"><i class="fa fa-circle-o"></i> Umowy</a></li>
+          </ul>
+        </li>
       </ul>
     </section>
   </aside>

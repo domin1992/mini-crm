@@ -58,4 +58,11 @@ class Generator{
         $mpdf->WriteHTML(view('bill.generate-pdf', ['bill' => $bill, 'owner' => $owner])->render());
         $mpdf->Output(storage_path('app/docs/').str_replace('/', '_', $bill->bill_number).'.pdf', 'F');
     }
+
+    public static function generateContract($template, $contract, $request, $owner){
+        $mpdf = Helper::initMpdf();
+        $mpdf->WriteHTML('<style>'.file_get_contents(public_path().'/css/contractpdf.css').'</style>', 1);
+        $mpdf->WriteHTML(view('contract.templates.'.$template, ['contract' => $contract, 'request' => $request, 'owner' => $owner])->render());
+        $mpdf->Output(storage_path('app/docs/').$contract->slug.'.pdf', 'F');
+    }
 }

@@ -47,4 +47,20 @@ Route::group(['middleware' => 'auth'], function(){
   Route::get('mileage-record/{id}/edit', 'MileageRecordController@edit');
   Route::put('mileage-record/{id}', 'MileageRecordController@update');
   Route::delete('mileage-record/{id}', 'MileageRecordController@destroy');
+  Route::get('contract-type',  'ContractTypeController@index');
+  Route::get('contract-type/create', 'ContractTypeController@create');
+  Route::post('contract-type',  'ContractTypeController@store');
+  Route::delete('contract-type/{id}', 'ContractTypeController@destroy');
+  Route::get('ajax-contract-type/{id}', 'ContractTypeController@ajaxShow');
+  Route::get('contract',  'ContractController@index');
+  Route::get('contract/create', 'ContractController@create');
+  Route::get('contract/{id}',  'ContractController@show');
+  Route::post('contract',  'ContractController@store');
+  Route::delete('contract/{id}', 'ContractController@destroy');
+  Route::post('contract/{id}/send',  'ContractController@sendEmail');
 });
+
+Route::get('/umowa/{slug}', 'ContractController@sign');
+Route::post('/ajax-umowa-sms/{slug}', 'ContractController@ajaxSendSms');
+Route::post('/ajax-umowa-sms-sprawdz/{slug}', 'ContractController@ajaxSendSmsCheck');
+Route::post('/umowa/{slug}', 'ContractController@processSign');

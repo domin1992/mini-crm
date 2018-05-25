@@ -93,4 +93,39 @@ class Helper{
             $invitaton->save();
         }
     }
+
+    public static function generateRandomString($length = 10, $set = 'nlu'){
+        switch($set){
+            case 'n':
+                $characters = '0123456789';
+                break;
+            case 'l':
+                $characters = 'abcdefghijklmnopqrstuvwxyz';
+                break;
+            case 'u':
+                $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                break;
+            case 'nl':
+                $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
+                break;
+            case 'nu':
+                $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                break;
+            case 'lu':
+                $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                break;
+            case 'nlu':
+                $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                break;
+        }
+
+        $charactersLength = strlen($characters);
+        $randomString = '';
+
+        for($i = 0; $i < $length; $i++){
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+
+        return $randomString;
+    }
 }
