@@ -25,3 +25,7 @@ Artisan::command('send-invitations', function () {
 Artisan::command('import-companies', function () {
     Helper::getCompanies();
 })->describe('');
+
+Artisan::command('hosting-ends', function() {
+    Helper::hostingEnds();
+});

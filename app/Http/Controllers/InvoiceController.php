@@ -52,15 +52,23 @@ class InvoiceController extends Controller
         $invoice->client_id = $request->client_id;
         $invoice->address_id = $request->address_id;
         $issueDate = Carbon::createFromFormat('Y-m-d', $request->issue_date);
-        $invoicesCount = Invoice::where([['issue_date', '>=', Carbon::createFromFormat('Y-m', $issueDate->format('Y-m'))->format('Y-m-1')], ['issue_date', '<=', Carbon::createFromFormat('Y-m', $issueDate->format('Y-m'))->format('Y-m-31')], ['advance', '=', $request->advance]])->count();
+        $invoicesCount = Invoice::where([
+            ['issue_date', '>=', Carbon::createFromFormat('Y-m', $issueDate->format('Y-m'))->format('Y-m-1')],
+            ['issue_date', '<=', Carbon::createFromFormat('Y-m', $issueDate->format('Y-m'))->format('Y-m-31')],
+            ['advance', '=', $request->advance],
+            ['proforma', '=', $request->proforma],
+        ])->count();
         if($request->advance == 1)
             $invoice->invoice_number = 'FVZAL/'.$issueDate->format('Y/m').'/'.(($invoicesCount + 1) < 10 ? '0'.($invoicesCount + 1) : $invoicesCount + 1);
+        elseif($request->proforma == 1)
+            $invoice->invoice_number = 'PRO/'.$issueDate->format('Y/m').'/'.(($invoicesCount + 1) < 10 ? '0'.($invoicesCount + 1) : $invoicesCount + 1);
         else
             $invoice->invoice_number = 'FV/'.$issueDate->format('Y/m').'/'.(($invoicesCount + 1) < 10 ? '0'.($invoicesCount + 1) : $invoicesCount + 1);
         $invoice->issue_city = $request->issue_city;
         $invoice->issue_date = $request->issue_date;
         $invoice->payment_date = $request->payment_date;
         $invoice->advance = $request->advance;
+        $invoice->proforma = $request->proforma;
         $invoice->comment = $request->comment;
         $invoice->payment_method_id = $request->payment_method_id;
         $invoice->paid = ($request->paid == 'on' ? 1 : 0);

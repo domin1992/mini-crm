@@ -4,20 +4,23 @@
 <section class="content">
   <div class="box">
     <div class="box-header with-border">
-      <h3 class="box-title">Faktury</h3>
+      <h3 class="box-title">Hosting</h3>
     </div>
     <div class="box-body">
       <table id="data-table" class="table table-bordered table-striped">
         <thead>
           <tr>
             <th>
-              Klient
+              Firma
             </th>
             <th>
-              Numer faktury
+              Nazwa konta
             </th>
             <th>
-              Data wystawienia
+              Data zakończenia
+            </th>
+            <th>
+              Cena
             </th>
             <th>
               Opcje
@@ -25,37 +28,39 @@
           </tr>
         </thead>
         <tbody>
-          @forelse($invoices as $invoice)
+          @forelse($hostings as $hosting)
             <tr>
               <td>
-                @foreach($invoice->client()->get() as $client)
-                  {{ $client->company }}
-                @endforeach
+                {{ $hosting->account_name }}
               </td>
               <td>
-                {{ $invoice->invoice_number }}
+                @if($hosting->client()->first())
+                  {{ $hosting->client()->first()->company }}
+                @endif
               </td>
               <td>
-                {{ $invoice->issue_date }}
+                {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $hosting->cycle()->orderBy('created_at', 'desc')->first()->end_date)->format('Y-m-d') }}
+              </td>
+              <td>
+                {{ number_format($hosting->price_tax_excl, 2, ',', ' ') }} zł
               </td>
               <td>
                 <div class="btn-group">
-                  <a href="/invoice/{{ $invoice->id }}" class="btn btn-info">Zobacz</a>
+                  <a href="/hosting/{{ $hosting->id }}" class="btn btn-info">Zobacz</a>
                   <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
                     <span class="caret"></span>
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
-                    {{-- <li><a href="/invoice/{{ $invoice->id }}/edit">Edytuj</a></li> --}}
-                    <li><a href="javascript:void(0)" class="delete-invoice" data-invoice="{{ $invoice->id }}">Usuń</a></li>
+                    <li><a href="/hosting/{{ $hosting->id }}/edit">Edytuj</a></li>
                   </ul>
                 </div>
               </td>
             </tr>
           @empty
             <tr>
-              <td colspan="3">
-                Brak faktur
+              <td colspan="5">
+                Brak hostingów
               </td>
             </tr>
           @endforelse
@@ -64,33 +69,19 @@
     </div>
     <div class="box-footer">
       <div class="row">
-        <div class="col-md-2 pull-right">
-          <a href="/invoice/create" class="btn btn-block btn-info">Nowa faktura</a>
-        </div>
-        <div class="col-md-2 pull-right">
-          <a href="/invoice/create?advance=1" class="btn btn-block btn-info">Nowa faktura zaliczkowa</a>
-        </div>
-        <div class="col-md-2 pull-right">
-          <a href="/invoice/create?proforma=1" class="btn btn-block btn-info">Nowa faktura pro forma</a>
+        <div class="col-md-1 pull-right">
+          <a href="/hosting/create" class="btn btn-block btn-info">Nowy</a>
         </div>
       </div>
     </div>
   </div>
 </section>
-@include('invoice.partials.modal-invoice-delete')
 @endsection
 
 @section('script')
 <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="/plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script>
-  $("#data-table").DataTable({
-    'order': [[2, 'desc']]
-  });
-
-  $('.delete-invoice').click(function(){
-    $('#form-invoice-delete').attr('action', '/invoice/' + $(this).data('invoice'));
-    $('.modal-invoice-delete').modal('show');
-  });
+  $("#data-table").DataTable();
 </script>
 @endsection

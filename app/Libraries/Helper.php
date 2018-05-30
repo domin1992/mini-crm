@@ -2,8 +2,16 @@
 
 namespace App\Libraries;
 
+use App\Client;
+use App\Invoice;
+use App\InvoicePosition;
 use App\Invitation;
+use App\Hosting;
+use App\HostingCycle;
+use App\PaymentMethod;
 use App\Mail\Invite;
+use App\Mail\HostingEnds;
+use App\Libraries\Generator;
 use Carbon\Carbon;
 use Mail;
 
@@ -127,5 +135,99 @@ class Helper{
         }
 
         return $randomString;
+    }
+
+    public static function hostingEnds(){
+        $now = Carbon::now();
+        $twoWeeks = $now->addWeeks(2);
+
+        $hostingCycles = HostingCycle::where([
+            ['end_date', '>=', $twoWeeks->format('Y-m-d 00:00:00')],
+            ['end_date', '<=', $twoWeeks->format('Y-m-d 23:59:59')],
+            ['paid', '=', true]
+        ])->get();
+
+        foreach($hostingCycles as $hostingCycle){
+            if(HostingCycle::where([['start_date', '=', $hostingCycle->end_date], ['hosting_id', '=', $hostingCycle->hosting_id]])->first() == null){
+                $hosting = Hosting::find($hostingCycle->hosting_id);
+                if($hosting->finishing == false){
+                    $hostingCycleNew = new HostingCycle;
+                    $hostingCycleNew->hosting_id = $hostingCycle->hosting_id;
+                    $hostingCycleNew->start_date = $hostingCycle->end_date;
+                    $periodStart = Carbon::createFromFormat('Y-m-d H:i:s', $hostingCycleNew->start_date);
+                    switch($hostingCycle->period){
+                      case 1:
+                        $periodEnd = $periodStart->addDays($hostingCycle->period_count);
+                        break;
+                      case 2:
+                        $periodEnd = $periodStart->addWeeks($hostingCycle->period_count);
+                        break;
+                      case 3:
+                        $periodEnd = $periodStart->addMonths($hostingCycle->period_count);
+                        break;
+                      case 4:
+                        $periodEnd = $periodStart->addYears($hostingCycle->period_count);
+                        break;
+                    }
+                    $hostingCycleNew->end_date = $periodEnd;
+                    $hostingCycleNew->period_count = $hostingCycle->period_count;
+                    $hostingCycleNew->period = $hostingCycle->period;
+                    $hostingCycleNew->paid = false;
+                    $hostingCycleNew->price_tax_excl = $hostingCycle->price_tax_excl;
+                    $hostingCycleNew->save();
+
+                    $invoice = new Invoice;
+                    $invoice->client_id = $hosting->client_id;
+                    $invoice->address_id = Client::find($hosting->client_id)->addresses()->first()->id;
+                    $issueDate = Carbon::now();
+                    $invoicesCount = Invoice::where([
+                        ['issue_date', '>=', Carbon::createFromFormat('Y-m', $issueDate->format('Y-m'))->format('Y-m-1')],
+                        ['issue_date', '<=', Carbon::createFromFormat('Y-m', $issueDate->format('Y-m'))->format('Y-m-31')],
+                        ['advance', '=', false],
+                        ['proforma', '=', true],
+                    ])->count();
+                    $invoice->invoice_number = 'PRO/'.$issueDate->format('Y/m').'/'.(($invoicesCount + 1) < 10 ? '0'.($invoicesCount + 1) : $invoicesCount + 1);
+                    $invoice->issue_city = 'Łódź';
+                    $invoice->issue_date = Carbon::now()->format('Y-m-d H:i:s');
+                    $invoice->payment_date = Carbon::now()->addWeeks(2)->format('Y-m-d H:i:s');
+                    $invoice->advance = false;
+                    $invoice->proforma = true;
+                    $invoice->payment_method_id = PaymentMethod::where('module_name', 'bank_transfer')->first()->id;
+                    $invoice->paid = false;
+                    $invoice->save();
+
+                    $invoicePositionName = 'Hosting';
+                    $invoicePositionName .= ' ('.$hostingCycleNew->period_count.' ';
+                    switch($hostingCycleNew->period){
+                        case 1:
+                            $invoicePositionName .= ($hostingCycleNew->period_count <= 1 ? 'dzień' : 'dni');
+                            break;
+                        case 2:
+                            $invoicePositionName .= ($hostingCycleNew->period_count <= 1 ? 'tydzień' : 'tygodni');
+                            break;
+                        case 3:
+                            $invoicePositionName .= ($hostingCycleNew->period_count <= 1 ? 'miesiąc' : 'miesięcy');
+                            break;
+                        case 1:
+                            $invoicePositionName .= ($hostingCycleNew->period_count <= 1 ? 'rok' : 'lat');
+                            break;
+                    }
+                    $invoicePositionName .= ')';
+
+                    $invoicePosition = new InvoicePosition;
+                    $invoicePosition->invoice_id = $invoice->id;
+                    $invoicePosition->name = $invoicePositionName;
+                    $invoicePosition->quantity = 1;
+                    $invoicePosition->measure_unit = 'szt';
+                    $invoicePosition->price_tax_excl = $hostingCycleNew->price_tax_excl;
+                    $invoicePosition->tax_id = 1;
+                    $invoicePosition->save();
+
+                    Generator::generateInvoicePdf($invoice->id);
+
+                    Mail::to($hosting->email)->send(new HostingEnds($hosting, $hostingCycle, $hostingCycleNew, $invoice));
+                }
+            }
+        }
     }
 }

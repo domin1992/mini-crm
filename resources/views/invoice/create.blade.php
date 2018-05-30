@@ -8,6 +8,9 @@
                     @if($request->input('advance') == 1)
                         zaliczkową
                     @endif
+                    @if($request->input('proforma') == 1)
+                        pro forme
+                    @endif
                 </h3>
             </div>
             <form class="form-horizontal" action="/invoice" method="POST">
@@ -103,6 +106,11 @@
                         <input type="hidden" id="advance" name="advance" value="1">
                     @else
                         <input type="hidden" id="advance" name="advance" value="0">
+                    @endif
+                    @if($request->input('proforma') == 1)
+                        <input type="hidden" id="proforma" name="proforma" value="1">
+                    @else
+                        <input type="hidden" id="proforma" name="proforma" value="0">
                     @endif
                     {{ csrf_field() }}
                 </div>

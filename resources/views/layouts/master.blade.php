@@ -127,6 +127,11 @@
             <li><a href="/contract"><i class="fa fa-circle-o"></i> Umowy</a></li>
           </ul>
         </li>
+        <li @if(strpos(Route::currentRouteName(), 'hosting') !== false) class="active" @endif>
+          <a href="/hosting">
+            <i class="fa fa-server"></i> <span>Hosting</span>
+          </a>
+        </li>
       </ul>
     </section>
   </aside>

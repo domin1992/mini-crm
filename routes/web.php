@@ -58,6 +58,22 @@ Route::group(['middleware' => 'auth'], function(){
   Route::post('contract',  'ContractController@store');
   Route::delete('contract/{id}', 'ContractController@destroy');
   Route::post('contract/{id}/send',  'ContractController@sendEmail');
+  Route::get('/hosting', 'HostingController@index');
+  Route::get('/hosting/create', 'HostingController@create');
+  Route::get('/hosting/{id}', 'HostingController@show');
+  Route::get('/hosting/{id}/edit', 'HostingController@edit');
+  Route::match(['PUT', 'PATCH'], '/hosting/{id}', 'HostingController@update');
+  Route::post('/hosting', 'HostingController@store');
+  Route::post('/hosting/{id}/finish', 'HostingController@finish');
+  Route::post('/hosting/{id}/unfinish', 'HostingController@unfinish');
+  Route::get('/hosting/{hostingId}/cycle/create', 'HostingCycleController@create');
+  Route::get('/hosting/{hostingId}/cycle/{hostingCycleId}/edit', 'HostingCycleController@edit');
+  Route::get('/hosting/{hostingId}/cycle/{hostingCycleId}/update', 'HostingCycleController@edit');
+  Route::post('/hosting/{hostingId}/cycle/{hostingCycleId}/unpaid', 'HostingCycleController@unpaid');
+  Route::post('/hosting/{hostingId}/cycle/{hostingCycleId}/paid', 'HostingCycleController@paid');
+  Route::match(['PUT', 'PATCH'], '/hosting/{hostingId}/cycle/{hostingCycleId}', 'HostingCycleController@update');
+  Route::post('/hosting/{hostingId}/cycle', 'HostingCycleController@store');
+  Route::delete('/hosting/{hostingId}/cycle/{hostingCycleId}/destroy', 'HostingCycleController@destroy');
 });
 
 Route::get('/umowa/{slug}', 'ContractController@sign');

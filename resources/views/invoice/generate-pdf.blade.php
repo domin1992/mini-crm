@@ -15,7 +15,13 @@
 						<table class="basic-info" border="0" cellpadding="0" cellspacing="0" marginheight="0">
                             <tr>
                                 <td colspan="2" class="title">
-                                    Faktura{{ ($invoice->advance ? ' zaliczkowa' : '') }} VAT
+									@if($invoice->advance)
+										Faktura zaliczkowa VAT
+									@elseif($invoice->proforma)
+										Pro forma
+									@else
+                                    	Faktura VAT
+									@endif
                                 </td>
                             </tr>
 							<tr>
