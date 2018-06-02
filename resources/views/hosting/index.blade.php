@@ -31,12 +31,12 @@
           @forelse($hostings as $hosting)
             <tr>
               <td>
-                {{ $hosting->account_name }}
+                  @if($hosting->client()->first())
+                      {{ $hosting->client()->first()->company }}
+                  @endif
               </td>
               <td>
-                @if($hosting->client()->first())
-                  {{ $hosting->client()->first()->company }}
-                @endif
+                  {{ $hosting->account_name }}
               </td>
               <td>
                 {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $hosting->cycle()->orderBy('created_at', 'desc')->first()->end_date)->format('Y-m-d') }}
