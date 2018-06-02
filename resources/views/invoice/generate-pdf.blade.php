@@ -8,7 +8,7 @@
 				<tr>
 					<td bgcolor="#FFFFFF" align="left" style="min-width: 50%; width: 50%; background: #FFFFFF; background-color: #FFFFFF;">
 						<a href="http://zencore.pl" target="_blank">
-							<img src="/img/logo.png" alt="" style="display: block; width: 205px;">
+							<img src="{{ env('APP_URL') }}/img/logo.png" alt="" style="display: block; width: 205px;">
 						</a>
 					</td>
 					<td bgcolor="#FFFFFF" align="right" style="min-width: 50%; width: 50%; background: #FFFFFF; background-color: #FFFFFF;">
