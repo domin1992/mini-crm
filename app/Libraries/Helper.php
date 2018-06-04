@@ -208,7 +208,7 @@ class Helper{
                         case 3:
                             $invoicePositionName .= ($hostingCycleNew->period_count <= 1 ? 'miesiąc' : 'miesięcy');
                             break;
-                        case 1:
+                        case 4:
                             $invoicePositionName .= ($hostingCycleNew->period_count <= 1 ? 'rok' : 'lat');
                             break;
                     }
