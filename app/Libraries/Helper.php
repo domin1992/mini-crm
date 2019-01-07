@@ -225,7 +225,7 @@ class Helper{
 
                     Generator::generateInvoicePdf($invoice->id);
 
-                    Mail::to($hosting->email)->send(new HostingEnds($hosting, $hostingCycle, $hostingCycleNew, $invoice));
+                    Mail::to('admin@zencore.pl')->send(new HostingEndsNotification($hosting, $hostingCycle, $hostingCycleNew, $invoice));
                 }
             }
         }

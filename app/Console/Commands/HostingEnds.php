@@ -27,6 +27,6 @@ class HostingEnds extends Command
      */
     public function handle()
     {
-        \App\Libraries\Helper::hostingEnds();
+        // \App\Libraries\Helper::hostingEnds();
     }
 }

@@ -29,8 +29,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->command('import-companies')->dailyAt('10:00');
-        $schedule->command('hosting-ends')->dailyAt('11:00');
+        // $schedule->command('import-companies')->dailyAt('10:00');
+        // $schedule->command('hosting-ends')->dailyAt('11:00');
         // $schedule->command('send-invitations')->everyTenMinutes();
     }
 }
